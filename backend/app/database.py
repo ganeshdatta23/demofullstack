@@ -7,12 +7,19 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import MetaData
 from app.config import settings
 
-# Create async engine
-engine = create_async_engine(
-    settings.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://"),
-    echo=settings.DATABASE_ECHO,
-    future=True
-)
+# Create async engine with proper configuration
+try:
+    engine = create_async_engine(
+        settings.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://"),
+        echo=settings.DATABASE_ECHO,
+        future=True,
+        pool_size=20,
+        max_overflow=0,
+        pool_pre_ping=True,
+        pool_recycle=300
+    )
+except Exception as e:
+    raise RuntimeError(f"Failed to create database engine: {e}")
 
 # Create async session factory
 AsyncSessionLocal = async_sessionmaker(
@@ -37,9 +44,15 @@ Base.metadata = MetaData(naming_convention=convention)
 
 
 async def get_db() -> AsyncSession:
-    """Dependency to get database session"""
-    async with AsyncSessionLocal() as session:
-        try:
-            yield session
-        finally:
+    """Dependency to get database session with proper error handling"""
+    session = None
+    try:
+        session = AsyncSessionLocal()
+        yield session
+    except Exception as e:
+        if session:
+            await session.rollback()
+        raise e
+    finally:
+        if session:
             await session.close()

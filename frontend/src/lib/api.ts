@@ -7,27 +7,40 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/a
 class ApiClient {
   private baseURL: string;
   private token: string | null = null;
+  private refreshToken: string | null = null;
+  private isRefreshing = false;
+  private failedQueue: Array<{resolve: Function; reject: Function}> = [];
 
   constructor(baseURL: string) {
     this.baseURL = baseURL;
     
-    // Get token from localStorage if available
+    // Get tokens from localStorage if available
     if (typeof window !== 'undefined') {
       this.token = localStorage.getItem('access_token');
+      this.refreshToken = localStorage.getItem('refresh_token');
     }
   }
 
-  setToken(token: string) {
-    this.token = token;
+  setTokens(accessToken: string, refreshToken?: string) {
+    this.token = accessToken;
+    if (refreshToken) {
+      this.refreshToken = refreshToken;
+    }
+    
     if (typeof window !== 'undefined') {
-      localStorage.setItem('access_token', token);
+      localStorage.setItem('access_token', accessToken);
+      if (refreshToken) {
+        localStorage.setItem('refresh_token', refreshToken);
+      }
     }
   }
 
-  clearToken() {
+  clearTokens() {
     this.token = null;
+    this.refreshToken = null;
     if (typeof window !== 'undefined') {
       localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
     }
   }
 
@@ -54,14 +67,40 @@ class ApiClient {
     try {
       const response = await fetch(url, config);
       
+      // Handle 401 Unauthorized - attempt token refresh
+      if (response.status === 401 && this.refreshToken && !endpoint.includes('/auth/')) {
+        try {
+          await this.refreshAccessToken();
+          // Retry original request with new token
+          const newHeaders = { ...headers };
+          if (this.token) {
+            newHeaders.Authorization = `Bearer ${this.token}`;
+          }
+          const retryResponse = await fetch(url, { ...config, headers: newHeaders });
+          if (retryResponse.ok) {
+            return await retryResponse.json();
+          }
+        } catch (refreshError) {
+          this.clearTokens();
+          throw new Error('Session expired. Please login again.');
+        }
+      }
+      
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+        const errorMessage = errorData.detail || errorData.message || `HTTP error! status: ${response.status}`;
+        throw new Error(errorMessage);
       }
 
-      return await response.json();
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        return await response.json();
+      }
+      return await response.text();
     } catch (error) {
-      console.error('API request failed:', error);
+      if (error instanceof TypeError) {
+        throw new Error('Network error. Please check your connection.');
+      }
       throw error;
     }
   }
@@ -72,11 +111,35 @@ class ApiClient {
     formData.append('username', email);
     formData.append('password', password);
 
-    return this.request('/auth/login', {
+    const result = await this.request('/auth/login', {
       method: 'POST',
       headers: {}, // Remove Content-Type to let browser set it for FormData
       body: formData,
     });
+    
+    // Store tokens after successful login
+    if (result.access_token) {
+      this.setTokens(result.access_token, result.refresh_token);
+    }
+    
+    return result;
+  }
+  
+  private async refreshAccessToken() {
+    if (!this.refreshToken) {
+      throw new Error('No refresh token available');
+    }
+    
+    const result = await this.request('/auth/refresh', {
+      method: 'POST',
+      body: JSON.stringify({ refresh_token: this.refreshToken }),
+    });
+    
+    if (result.access_token) {
+      this.setTokens(result.access_token, result.refresh_token);
+    }
+    
+    return result;
   }
 
   async register(userData: any) {

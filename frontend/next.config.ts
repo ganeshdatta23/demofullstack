@@ -1,15 +1,49 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  /* Production-ready configuration */
+  
+  // Build configuration
   typescript: {
-    // Only ignore build errors in development
     ignoreBuildErrors: process.env.NODE_ENV === 'development',
   },
   eslint: {
-    // Only ignore during builds in development
     ignoreDuringBuilds: process.env.NODE_ENV === 'development',
   },
+  
+  // Performance optimizations
+  compress: true,
+  poweredByHeader: false,
+  generateEtags: true,
+  
+  // Security headers
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin'
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()'
+          }
+        ]
+      }
+    ]
+  },
+  
+  // Image optimization
   images: {
     remotePatterns: [
       {
@@ -33,6 +67,22 @@ const nextConfig: NextConfig = {
     ],
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
+  },
+  
+  // Experimental features for performance
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+  },
+  
+  // Output configuration for Docker
+  output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
+  
+  // Environment variables validation
+  env: {
+    CUSTOM_KEY: process.env.CUSTOM_KEY,
   },
 };
 

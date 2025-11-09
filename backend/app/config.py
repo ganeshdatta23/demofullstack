@@ -8,23 +8,37 @@ import os
 
 
 class Settings(BaseSettings):
-    """Application settings"""
+    """Application settings with secure defaults"""
     
     # Application
     APP_NAME: str = "Hospital Management System"
     VERSION: str = "1.0.0"
     ENVIRONMENT: str = "development"
-    DEBUG: bool = True
+    DEBUG: bool = False  # Secure default
     
     # Database
-    DATABASE_URL: str = "postgresql://postgres:password@localhost:5432/hospital_db"
+    DATABASE_URL: str
     DATABASE_ECHO: bool = False
     
-    # Security
-    SECRET_KEY: str = "your-secret-key-change-in-production"
+    # Security - All required in production
+    SECRET_KEY: str
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
+    
+    @validator('SECRET_KEY')
+    def validate_secret_key(cls, v, values):
+        if values.get('ENVIRONMENT') == 'production' and (not v or v == 'your-secret-key-change-in-production'):
+            raise ValueError('SECRET_KEY must be set in production')
+        if len(v) < 32:
+            raise ValueError('SECRET_KEY must be at least 32 characters long')
+        return v
+    
+    @validator('DATABASE_URL')
+    def validate_database_url(cls, v):
+        if not v:
+            raise ValueError('DATABASE_URL is required')
+        return v
     
     # CORS
     ALLOWED_HOSTS: List[str] = ["http://localhost:3000", "http://localhost:9002"]
