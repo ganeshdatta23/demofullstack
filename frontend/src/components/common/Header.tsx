@@ -85,12 +85,27 @@ const menuItems = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <>
+      {/* Top Bar */}
+      <div className="bg-blue-600 text-white py-2 text-sm">
+        <div className="container flex items-center justify-between">
+          <div className="flex items-center space-x-6">
+            <span>📧 info@apexhospital.com</span>
+            <span>🕒 24/7 Emergency Services</span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <span>📞 Emergency: 108</span>
+            <span>🚑 Ambulance: +91-44-4455-4455</span>
+          </div>
+        </div>
+      </div>
+      
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-white shadow-sm">
       <div className="container flex h-16 max-w-screen-2xl items-center">
         <div className="mr-4 flex items-center">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <Stethoscope className="h-6 w-6 text-primary" />
-            <span className="font-bold sm:inline-block">Apex Hospital</span>
+            <span className="font-bold sm:inline-block text-blue-600">Apex Hospital</span>
           </Link>
           <nav className="hidden items-center gap-6 text-sm lg:flex">
             {menuItems.map((item) => (
@@ -107,14 +122,17 @@ export function Header() {
         </div>
 
         <div className="flex flex-1 items-center justify-end space-x-2">
-          <div className="hidden lg:flex items-center space-x-4">
-             <div className="text-right">
-                <div className="text-xs font-semibold text-primary">24/7 HELPLINE</div>
-                <a href="tel:+914045674567" className="text-sm font-bold">+91 40 4567 4567</a>
+          <div className="hidden lg:flex items-center space-x-6">
+            <Button variant="outline" size="sm" className="text-blue-600 border-blue-600 hover:bg-blue-50">
+              Book Appointment
+            </Button>
+            <div className="text-right">
+                <div className="text-xs font-semibold text-blue-600">24/7 HELPLINE</div>
+                <a href="tel:+914445544455" className="text-sm font-bold text-gray-900">+91 44 4554 4455</a>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost">
+                <Button variant="ghost" className="text-gray-700 hover:text-blue-600">
                   <LogIn className="mr-2 h-4 w-4" />
                   Login
                 </Button>
@@ -132,7 +150,7 @@ export function Header() {
             </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button>Sign Up</Button>
+                <Button className="bg-blue-600 hover:bg-blue-700">Sign Up</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                  <DropdownMenuGroup>
@@ -198,5 +216,6 @@ export function Header() {
         </div>
       </div>
     </header>
+    </>
   );
 }
