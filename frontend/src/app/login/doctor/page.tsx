@@ -14,10 +14,20 @@ export default function DoctorLoginPage() {
           <CardDescription>Enter your email below to login to your account</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <form onSubmit={(e) => { e.preventDefault(); }} className="space-y-4">
+          <form onSubmit={(e) => { 
+            e.preventDefault(); 
+            const formData = new FormData(e.currentTarget);
+            const email = formData.get('email') as string;
+            const password = formData.get('password') as string;
+            if (!email || !password) {
+              alert('Please fill in all fields');
+              return;
+            }
+            // Handle login logic here
+          }} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="m@example.com" required />
+              <Input id="email" name="email" type="email" placeholder="m@example.com" required />
             </div>
             <div className="space-y-2">
               <div className="flex items-center">
@@ -26,7 +36,7 @@ export default function DoctorLoginPage() {
                   Forgot your password?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input id="password" name="password" type="password" required />
             </div>
             <Button type="submit" className="w-full">
               Login

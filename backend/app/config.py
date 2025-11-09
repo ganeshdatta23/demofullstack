@@ -3,6 +3,7 @@ Application configuration management
 """
 
 from pydantic_settings import BaseSettings
+from pydantic import validator
 from typing import List, Optional
 import os
 

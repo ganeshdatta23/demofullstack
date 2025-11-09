@@ -76,9 +76,16 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
     return null
   }
 
-  // Sanitize CSS values to prevent XSS
+  // Enhanced CSS sanitization to prevent XSS
   const sanitizeCSS = (value: string) => {
-    return value.replace(/[<>"'&]/g, '').replace(/javascript:/gi, '')
+    if (typeof value !== 'string') return '';
+    return value
+      .replace(/[<>"'&\\]/g, '')
+      .replace(/javascript:/gi, '')
+      .replace(/data:/gi, '')
+      .replace(/vbscript:/gi, '')
+      .replace(/on\w+=/gi, '')
+      .trim()
   }
 
   const sanitizedId = sanitizeCSS(id)
@@ -95,7 +102,9 @@ ${colorConfig
     const color =
       itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
       itemConfig.color
-    return color ? `  --color-${sanitizeCSS(key)}: ${sanitizeCSS(color)};` : null
+    const sanitizedKey = sanitizeCSS(key);
+    const sanitizedColor = sanitizeCSS(color);
+    return (sanitizedKey && sanitizedColor) ? `  --color-${sanitizedKey}: ${sanitizedColor};` : null
   })
   .filter(Boolean)
   .join("\n")}

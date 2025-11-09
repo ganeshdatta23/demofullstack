@@ -9,7 +9,8 @@ const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
 >(({ className, value, ...props }, ref) => {
-  const clampedValue = Math.min(100, Math.max(0, value || 0))
+  const safeValue = typeof value === 'number' ? value : 0
+  const clampedValue = Math.min(100, Math.max(0, safeValue))
   
   return (
     <ProgressPrimitive.Root
@@ -18,6 +19,7 @@ const Progress = React.forwardRef<
         "relative h-4 w-full overflow-hidden rounded-full bg-secondary",
         className
       )}
+      value={clampedValue}
       {...props}
     >
       <ProgressPrimitive.Indicator

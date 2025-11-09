@@ -12,22 +12,14 @@ export function useIsMobile() {
     try {
       const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
       const onChange = () => {
-        try {
-          setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-        } catch (error) {
-          console.warn('Error updating mobile state:', error)
-        }
+        setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
       }
       
       mql.addEventListener("change", onChange)
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
       
       return () => {
-        try {
-          mql.removeEventListener("change", onChange)
-        } catch (error) {
-          console.warn('Error removing mobile listener:', error)
-        }
+        mql.removeEventListener("change", onChange)
       }
     } catch (error) {
       console.warn('Error setting up mobile detection:', error)
