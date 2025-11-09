@@ -5,7 +5,6 @@ import {
   Brain,
   Bone,
   Baby,
-  Search,
   ArrowRight,
   Building,
   Bed,
@@ -13,11 +12,12 @@ import {
   User,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { HealthPackageCard } from '@/components/home/HealthPackageCard';
+import { SearchForm } from '@/components/home/SearchForm';
+import { AppointmentForm } from '@/components/home/AppointmentForm';
 
 // Helper function to get image from placeholder data
 const getImage = (id: string) => PlaceHolderImages.find((img) => img.id === id);
@@ -158,19 +158,7 @@ export default function Home() {
               </div>
               
               {/* Search Bar */}
-              <div className="w-full max-w-lg">
-                <form className="flex space-x-2" onSubmit={(e) => { e.preventDefault(); }}>
-                  <Input
-                    type="search"
-                    placeholder="Search doctors, specialties, treatments..."
-                    className="flex-1 bg-white border-gray-200 shadow-sm"
-                    required
-                  />
-                  <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-                    <Search className="h-4 w-4" />
-                  </Button>
-                </form>
-              </div>
+              <SearchForm />
             </div>
             <div className="relative">
               {heroImage && (
@@ -428,27 +416,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="bg-white rounded-2xl p-8 shadow-2xl">
-              <h3 className="text-xl font-bold mb-6 text-gray-900">Quick Appointment</h3>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Input placeholder="Full Name" className="border-gray-200" />
-                  <Input placeholder="Phone Number" className="border-gray-200" />
-                </div>
-                <Input placeholder="Email Address" className="border-gray-200" />
-                <select className="w-full p-3 border border-gray-200 rounded-md">
-                  <option>Select Specialty</option>
-                  <option>Cardiology</option>
-                  <option>Neurology</option>
-                  <option>Orthopedics</option>
-                  <option>Pediatrics</option>
-                </select>
-                <Input type="date" className="border-gray-200" />
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                  Book Appointment
-                </Button>
-              </form>
-            </div>
+            <AppointmentForm />
           </div>
         </div>
       </section>

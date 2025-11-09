@@ -1,0 +1,34 @@
+'use client';
+
+import { useState } from 'react';
+import { Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+
+export function SearchForm() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle search logic here
+    console.log('Searching for:', searchQuery);
+  };
+
+  return (
+    <div className="w-full max-w-lg">
+      <form className="flex space-x-2" onSubmit={handleSubmit}>
+        <Input
+          type="search"
+          placeholder="Search doctors, specialties, treatments..."
+          className="flex-1 bg-white border-gray-200 shadow-sm"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          required
+        />
+        <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+          <Search className="h-4 w-4" />
+        </Button>
+      </form>
+    </div>
+  );
+}

@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Stethoscope } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -7,75 +9,81 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 export function Footer() {
   return (
     <footer className="border-t bg-muted/50">
-      <div className="container py-12">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-6">
-          <div className="col-span-2">
-            <h4 className="mb-4 font-semibold">About Apex</h4>
+      <div className="container py-12 px-4 md:px-6">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-6">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-2">
+            <h4 className="mb-4 font-semibold text-foreground">About Apex</h4>
             <ul className="space-y-2">
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Overview</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Achievements</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Awards</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">News</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Contact</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Careers</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Overview</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Achievements</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Awards</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">News</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Careers</Link></li>
             </ul>
           </div>
-          <div>
-            <h4 className="mb-4 font-semibold">Our Doctors</h4>
+          <div className="col-span-1">
+            <h4 className="mb-4 font-semibold text-foreground">Our Doctors</h4>
             <ul className="space-y-2">
-              <li><Link href="/doctors" className="text-sm text-muted-foreground hover:text-primary">Find a Doctor</Link></li>
+              <li><Link href="/doctors" className="text-sm text-muted-foreground hover:text-primary transition-colors">Find a Doctor</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Book Appointment</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Specialties</Link></li>
             </ul>
           </div>
-          <div>
-            <h4 className="mb-4 font-semibold">Health Checkup</h4>
+          <div className="col-span-1">
+            <h4 className="mb-4 font-semibold text-foreground">Services</h4>
             <ul className="space-y-2">
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Packages</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Health Packages</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Emergency Care</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Telemedicine</Link></li>
             </ul>
           </div>
-          <div>
-            <h4 className="mb-4 font-semibold">Patient Info</h4>
+          <div className="col-span-1">
+            <h4 className="mb-4 font-semibold text-foreground">Patient Care</h4>
             <ul className="space-y-2">
-              <li><Link href="/symptom-checker" className="text-sm text-muted-foreground hover:text-primary">Symptom Checker</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Testimonials</Link></li>
+              <li><Link href="/symptom-checker" className="text-sm text-muted-foreground hover:text-primary transition-colors">Symptom Checker</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Testimonials</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Patient Portal</Link></li>
             </ul>
           </div>
-          <div>
-            <h4 className="mb-4 font-semibold">International Care</h4>
-            <ul className="space-y-2">
-               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Services</Link></li>
-            </ul>
-          </div>
-          <div className="col-span-2 mt-8 md:col-span-6 lg:col-span-2 lg:mt-0">
-             <h4 className="mb-4 font-semibold">Get a Call Back</h4>
-             <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); }}>
-                <Input placeholder="Full Name" required />
-                <Input type="tel" placeholder="Phone Number" required />
-                <Button className="w-full" type="button">Send OTP</Button>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Medical Opinion" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="opinion">Medical Opinion</SelectItem>
-                    <SelectItem value="appointment">Appointment</SelectItem>
-                    <SelectItem value="careers">Careers</SelectItem>
-                    <SelectItem value="other">Others</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Button className="w-full" type="submit">Submit</Button>
-             </form>
+          <div className="col-span-1 sm:col-span-2 lg:col-span-1">
+            <h4 className="mb-4 font-semibold text-foreground">Quick Contact</h4>
+            <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); }}>
+              <Input placeholder="Full Name" className="h-9" required />
+              <Input type="tel" placeholder="Phone Number" className="h-9" required />
+              <Select>
+                <SelectTrigger className="h-9">
+                  <SelectValue placeholder="Select Service" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="appointment">Book Appointment</SelectItem>
+                  <SelectItem value="opinion">Medical Opinion</SelectItem>
+                  <SelectItem value="emergency">Emergency</SelectItem>
+                  <SelectItem value="other">Other Inquiry</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button className="w-full h-9" type="submit">Request Callback</Button>
+            </form>
           </div>
         </div>
-        <div className="mt-8 border-t pt-6 flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
+        <div className="mt-12 border-t pt-8">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <div className="flex items-center space-x-2">
               <Stethoscope className="h-6 w-6 text-primary" />
-              <span className="font-bold">Apex Hospital</span>
+              <span className="font-bold text-lg">Apex Hospital</span>
             </div>
-            <p className="text-sm text-muted-foreground text-center md:text-left">&copy; {new Date().getFullYear()} Apex Hospital. All rights reserved.</p>
-            <div className="flex space-x-4 mt-4 md:mt-0">
-                <Link href="#" className="text-sm text-muted-foreground hover:text-primary">Privacy Policy</Link>
-                <Link href="#" className="text-sm text-muted-foreground hover:text-primary">Terms & Conditions</Link>
+            <p className="text-sm text-muted-foreground text-center">
+              &copy; {new Date().getFullYear()} Apex Hospital. All rights reserved.
+            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                Terms & Conditions
+              </Link>
             </div>
+          </div>
         </div>
       </div>
     </footer>
