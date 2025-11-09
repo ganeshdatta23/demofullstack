@@ -63,15 +63,23 @@ const addToRemoveQueue = (toastId: string) => {
     return
   }
 
-  const timeout = setTimeout(() => {
-    toastTimeouts.delete(toastId)
-    dispatch({
-      type: "REMOVE_TOAST",
-      toastId: toastId,
-    })
-  }, TOAST_REMOVE_DELAY)
+  try {
+    const timeout = setTimeout(() => {
+      try {
+        toastTimeouts.delete(toastId)
+        dispatch({
+          type: "REMOVE_TOAST",
+          toastId: toastId,
+        })
+      } catch (error) {
+        console.warn('Error removing toast:', error)
+      }
+    }, TOAST_REMOVE_DELAY)
 
-  toastTimeouts.set(toastId, timeout)
+    toastTimeouts.set(toastId, timeout)
+  } catch (error) {
+    console.warn('Error setting toast timeout:', error)
+  }
 }
 
 export const reducer = (state: State, action: Action): State => {
@@ -134,10 +142,14 @@ const listeners: Array<(state: State) => void> = []
 let memoryState: State = { toasts: [] }
 
 function dispatch(action: Action) {
-  memoryState = reducer(memoryState, action)
-  listeners.forEach((listener) => {
-    listener(memoryState)
-  })
+  try {
+    memoryState = reducer(memoryState, action)
+    listeners.forEach((listener) => {
+      listener(memoryState)
+    })
+  } catch (error) {
+    console.warn('Toast dispatch error:', error)
+  }
 }
 
 type Toast = Omit<ToasterToast, "id">

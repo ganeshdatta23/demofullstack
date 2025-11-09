@@ -1,82 +1,208 @@
-# Apex Hospital - Web Application
+# Hospital Management System
 
-This is a comprehensive, scalable multi-specialty hospital management and patient engagement platform built with Next.js and Firebase. The application is designed to mirror the functionality and user experience of a modern hospital, supporting patient appointments, doctor discovery, and AI-powered health tools.
+A comprehensive, production-grade hospital management platform built with modern technologies.
 
-## Tech Stack
+## 🏗️ Architecture
 
-- **Framework**: [Next.js](https://nextjs.org/) 14+ with App Router
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **UI**: [React](https://react.dev/), [Shadcn/ui](https://ui.shadcn.com/), and [Tailwind CSS](https://tailwindcss.com/)
-- **Generative AI**: [Genkit](https://firebase.google.com/docs/genkit) for AI flows
-- **Styling**: Tailwind CSS with CSS Variables for theming
-- **Icons**: [Lucide React](https://lucide.dev/guide/packages/lucide-react)
+### Backend (Python FastAPI)
+- **Framework**: FastAPI with async/await support
+- **Database**: PostgreSQL with SQLAlchemy ORM
+- **Authentication**: JWT tokens with OAuth2
+- **Task Queue**: Celery with Redis
+- **API Documentation**: Auto-generated Swagger/OpenAPI
 
-## Features Implemented
+### Frontend (Next.js)
+- **Framework**: Next.js 14+ with App Router
+- **Language**: TypeScript
+- **UI**: React 18+ with Shadcn/ui components
+- **Styling**: Tailwind CSS
+- **AI Integration**: Google Gemini for symptom checker
 
-### 1. Public-Facing Pages
-- **Homepage (`/`)**: A comprehensive landing page featuring:
-  - A hero section with a call-to-action.
-  - A "Why Choose Us" section with hospital statistics.
-  - A grid of explorable medical specialities.
-  - An AI Symptom Checker call-to-action.
-  - A patient testimonials section.
-  - Health packages section.
-- **Doctor Search (`/doctors`)**: A page for finding and filtering doctors (UI shell).
-- **Symptom Checker (`/symptom-checker`)**: An AI-powered tool for users to input symptoms and receive potential diagnoses.
+## 🚀 Quick Start
 
-### 2. Authentication
-- **Patient Login (`/login/patient`)**: A dedicated login page for patients.
-- **Doctor Login (`/login/doctor`)**: A dedicated login page for doctors.
-- The header includes a dropdown menu for easy access to both login pages.
+### Prerequisites
+- Python 3.11+
+- Node.js 18+
+- PostgreSQL 15+
+- Redis 7+
+- Docker & Docker Compose (optional)
 
-### 3. AI Functionality
-- **AI Symptom Checker**: A Genkit flow (`src/ai/flows/ai-symptom-checker.ts`) that takes user symptoms and uses a generative model to provide a list of possible diagnoses and a disclaimer.
+### Backend Setup
 
-### 4. Core Components
-- **Header**: Sticky header with navigation, dropdown menus, and login access.
-- **Footer**: Comprehensive footer with multiple columns and a "Get a Call Back" form.
-- **Reusable UI Components**: A rich set of components from `shadcn/ui` located in `src/components/ui`.
+1. **Navigate to backend directory**
+   ```bash
+   cd backend
+   ```
 
-## Project Structure
+2. **Create virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Setup environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+5. **Start services with Docker**
+   ```bash
+   docker-compose up -d postgres redis
+   ```
+
+6. **Run database migrations**
+   ```bash
+   alembic upgrade head
+   ```
+
+7. **Start the backend server**
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+
+   Backend will be available at: http://localhost:8000
+   API Documentation: http://localhost:8000/api/docs
+
+### Frontend Setup
+
+1. **Navigate to frontend directory**
+   ```bash
+   cd frontend
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Setup environment variables**
+   ```bash
+   cp .env.example .env.local
+   # Edit .env.local with your configuration
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+   Frontend will be available at: http://localhost:3000
+
+## 📁 Project Structure
 
 ```
-.
-├── src
-│   ├── app                 # Next.js App Router pages
-│   │   ├── doctors         # Doctor search page
-│   │   ├── login           # Login pages for patient/doctor
-│   │   ├── symptom-checker # AI Symptom Checker page
-│   │   ├── page.tsx        # Homepage
-│   │   └── layout.tsx      # Root layout
-│   ├── components          # Reusable React components
-│   │   ├── common          # Header, Footer
-│   │   ├── home            # Components specific to the homepage
-│   │   └── ui              # Shadcn UI components
-│   ├── ai                  # Genkit AI flows and configuration
-│   │   ├── flows           # AI logic for features
-│   │   └── genkit.ts       # Genkit initialization
-│   ├── lib                 # Utilities, data, types, and configs
-│   │   ├── data.ts         # Mock data for doctors
-│   │   ├── placeholder-images.json # Placeholder image data
-│   │   └── types.ts        # TypeScript type definitions
-│   └── hooks               # Custom React hooks
-└── tailwind.config.ts    # Tailwind CSS configuration
+hospital-management-system/
+├── backend/                 # Python FastAPI backend
+│   ├── app/
+│   │   ├── api/            # API routes
+│   │   ├── models/         # Database models
+│   │   ├── schemas/        # Pydantic schemas
+│   │   ├── services/       # Business logic
+│   │   └── main.py         # FastAPI app
+│   ├── migrations/         # Database migrations
+│   ├── tests/             # Backend tests
+│   └── requirements.txt   # Python dependencies
+│
+├── frontend/              # Next.js frontend
+│   ├── src/
+│   │   ├── app/          # Next.js app router
+│   │   ├── components/   # React components
+│   │   ├── lib/         # Utilities and API client
+│   │   └── hooks/       # Custom React hooks
+│   ├── public/          # Static assets
+│   └── package.json     # Node.js dependencies
+│
+└── docs/                # Documentation
 ```
 
-## Getting Started
+## 🔧 Development
 
-To run the development server:
+### Backend Development
+- **API Documentation**: Visit `/api/docs` for interactive Swagger UI
+- **Database Migrations**: Use Alembic for schema changes
+- **Testing**: Run `pytest` for backend tests
+- **Code Quality**: Use `black`, `flake8`, and `mypy`
 
+### Frontend Development
+- **Component Library**: Shadcn/ui components
+- **Styling**: Tailwind CSS with custom design system
+- **Type Safety**: Full TypeScript support
+- **Testing**: Jest and React Testing Library
+
+## 🌟 Features
+
+### Core Features
+- ✅ User Authentication (Patients, Doctors, Admin)
+- ✅ Doctor Discovery and Profiles
+- ✅ Appointment Booking System
+- ✅ Medical Records Management
+- ✅ Multi-Hospital Support
+- ✅ AI-Powered Symptom Checker
+- ✅ Real-time Notifications
+- ✅ Payment Integration
+
+### Advanced Features
+- 🔄 Real-time Chat System
+- 📊 Analytics Dashboard
+- 📱 Mobile-Responsive Design
+- 🔐 Role-Based Access Control
+- 📧 Email/SMS Notifications
+- 💳 Payment Gateway Integration
+- 🏥 Multi-Tenant Architecture
+
+## 🚀 Deployment
+
+### Using Docker
 ```bash
-npm run dev
+# Backend
+cd backend
+docker-compose up -d
+
+# Frontend
+cd frontend
+docker build -t hospital-frontend .
+docker run -p 3000:3000 hospital-frontend
 ```
 
-Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
+### Production Deployment
+- **Backend**: Deploy to AWS ECS, Google Cloud Run, or similar
+- **Frontend**: Deploy to Vercel, Netlify, or AWS Amplify
+- **Database**: Use managed PostgreSQL (AWS RDS, Google Cloud SQL)
+- **Cache**: Use managed Redis (AWS ElastiCache, Google Memorystore)
 
-The Genkit development server can be run concurrently:
+## 📚 API Documentation
 
-```bash
-npm run genkit:dev
-```
+The API follows RESTful conventions and includes:
+- Authentication endpoints (`/auth/*`)
+- Patient management (`/patients/*`)
+- Doctor management (`/doctors/*`)
+- Appointment system (`/appointments/*`)
+- Hospital information (`/hospitals/*`)
+- Medical records (`/medical-records/*`)
 
-This will start the Genkit development UI, allowing you to inspect and test your AI flows.
+Full API documentation is available at `/api/docs` when running the backend.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue on GitHub
+- Check the documentation in `/docs`
+- Review API documentation at `/api/docs`

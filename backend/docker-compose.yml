@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    container_name: hospital_postgres
+    environment:
+      POSTGRES_DB: hospital_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - hospital_network
+
+  # Redis for caching and task queue
+  redis:
+    image: redis:7-alpine
+    container_name: hospital_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - hospital_network
+
+  # FastAPI Backend
+  backend:
+    build: .
+    container_name: hospital_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/hospital_db
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/app
+    networks:
+      - hospital_network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Celery Worker
+  celery_worker:
+    build: .
+    container_name: hospital_celery_worker
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/hospital_db
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/app
+    networks:
+      - hospital_network
+    command: celery -A app.tasks.celery worker --loglevel=info
+
+  # Celery Beat (Scheduler)
+  celery_beat:
+    build: .
+    container_name: hospital_celery_beat
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/hospital_db
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/app
+    networks:
+      - hospital_network
+    command: celery -A app.tasks.celery beat --loglevel=info
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  hospital_network:
+    driver: bridge
