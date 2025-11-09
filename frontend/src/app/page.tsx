@@ -140,7 +140,7 @@ export default function Home() {
                   <span className="text-blue-600"> Priority</span>
                 </h1>
                 <p className="max-w-[600px] text-lg text-muted-foreground">
-                  Experience world-class healthcare with 24/7 emergency services, expert doctors, and cutting-edge technology. Your wellness journey starts here.
+                  Healthcare with 24/7 emergency services for everyone, expert doctors, and cutting-edge technology. Your wellness journey starts here.
                 </p>
               </div>
               
