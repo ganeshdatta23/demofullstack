@@ -41,7 +41,7 @@ export function HealthPackageCard({ title, price, items, image }: HealthPackageC
         <p className="text-2xl font-bold">
           ₹{price}
         </p>
-        <Button>Book Now</Button>
+        <Button onClick={() => console.log('Booking:', title)}>Book Now</Button>
       </CardFooter>
     </Card>
   );

@@ -14,22 +14,24 @@ export default function DoctorLoginPage() {
           <CardDescription>Enter your email below to login to your account</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@example.com" required />
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Password</Label>
-              <Link href="#" className="ml-auto inline-block text-sm underline">
-                Forgot your password?
-              </Link>
+          <form onSubmit={(e) => { e.preventDefault(); }} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" type="email" placeholder="m@example.com" required />
             </div>
-            <Input id="password" type="password" required />
-          </div>
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
+            <div className="space-y-2">
+              <div className="flex items-center">
+                <Label htmlFor="password">Password</Label>
+                <Link href="#" className="ml-auto inline-block text-sm underline">
+                  Forgot your password?
+                </Link>
+              </div>
+              <Input id="password" type="password" required />
+            </div>
+            <Button type="submit" className="w-full">
+              Login
+            </Button>
+          </form>
         </CardContent>
         <CardFooter className="flex flex-col items-center space-y-2">
           <div className="text-center text-sm">

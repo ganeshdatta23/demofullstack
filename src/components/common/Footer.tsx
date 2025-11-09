@@ -47,10 +47,10 @@ export function Footer() {
           </div>
           <div className="col-span-2 mt-8 md:col-span-6 lg:col-span-2 lg:mt-0">
              <h4 className="mb-4 font-semibold">Get a Call Back</h4>
-             <form className="space-y-3">
-                <Input placeholder="Full Name" />
-                <Input type="tel" placeholder="Phone Number" />
-                <Button className="w-full">Send OTP</Button>
+             <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); }}>
+                <Input placeholder="Full Name" required />
+                <Input type="tel" placeholder="Phone Number" required />
+                <Button className="w-full" type="button">Send OTP</Button>
                 <Select>
                   <SelectTrigger>
                     <SelectValue placeholder="Medical Opinion" />

@@ -90,11 +90,12 @@ export default function Home() {
                 Find trusted doctors, book appointments, and manage your health journey with Apex Hospital.
               </p>
               <div className="w-full max-w-md space-y-2">
-                <form className="flex space-x-2">
+                <form className="flex space-x-2" onSubmit={(e) => { e.preventDefault(); }}>
                   <Input
                     type="search"
                     placeholder="Find a Doctor by name, specialty..."
                     className="flex-1 bg-background"
+                    required
                   />
                   <Button type="submit">
                     <Search className="mr-2 h-4 w-4" />
