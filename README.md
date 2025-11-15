@@ -15,7 +15,7 @@ A comprehensive, production-grade hospital management platform inspired by moder
 - **Telemedicine**: Video consultations and remote care
 
 ### 🔒 Security & Compliance
-- JWT authentication with refresh tokens
+- JWT authentication winth refresh tokens
 - HIPAA-compliant data handling
 - End-to-end encryption
 - Role-based access control

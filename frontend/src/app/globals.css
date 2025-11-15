@@ -2,8 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+/* Prevent horizontal scroll */
+html, body {
+  overflow-x: hidden;
   font-family: 'Inter', sans-serif;
+}
+
+/* Ensure all containers respect viewport width */
+* {
+  box-sizing: border-box;
+}
+
+/* Fix container max-width issues */
+.container {
+  width: 100%;
+  max-width: 100vw;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 @layer base {
