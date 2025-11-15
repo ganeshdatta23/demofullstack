@@ -1,7 +1,11 @@
-'use client';
-
+// 'use client';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
+
+export async function generateStaticParams() {
+  // Return empty array for now - you can add doctor IDs here later
+  return [];
+}
 import { Star, MapPin, Clock, Calendar, Video, Award, Languages, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -39,6 +43,8 @@ const mockReviews = [
     verified: true
   }
 ];
+
+'use client';
 
 export default function DoctorProfilePage() {
   const params = useParams();
