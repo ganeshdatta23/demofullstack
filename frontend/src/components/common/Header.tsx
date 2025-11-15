@@ -39,7 +39,7 @@ interface DropdownNavLinkProps {
 }
 
 const DropdownNavLink = ({ label, children }: DropdownNavLinkProps) => (
-  <DropdownMenu>
+  <DropdownMenu modal={false}>
     <DropdownMenuTrigger asChild>
       <Button 
         variant="ghost" 
@@ -49,7 +49,7 @@ const DropdownNavLink = ({ label, children }: DropdownNavLinkProps) => (
         <ChevronDown className="ml-1 h-4 w-4" />
       </Button>
     </DropdownMenuTrigger>
-    <DropdownMenuContent align="start" className="w-56">
+    <DropdownMenuContent align="start" className="w-56 z-50" sideOffset={5}>
       {children}
     </DropdownMenuContent>
   </DropdownMenu>
@@ -188,14 +188,14 @@ export function Header() {
 
           {/* Authentication Section */}
           <div className="hidden xl:flex items-center space-x-1">
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="text-gray-700 hover:text-blue-600 transition-colors">
                   <LogIn className="h-4 w-4 xl:mr-2" />
                   <span className="hidden xl:inline">Login</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="z-50" sideOffset={5}>
                 <DropdownMenuGroup>
                   <DropdownMenuItem asChild>
                     <Link href="/login/patient" className="cursor-pointer">
@@ -211,14 +211,14 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
             
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button size="sm" className="bg-blue-600 hover:bg-blue-700 transition-colors text-xs px-2 xl:px-4">
                   <span className="hidden xl:inline">Sign Up</span>
                   <span className="xl:hidden">+</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="z-50" sideOffset={5}>
                 <DropdownMenuGroup>
                   <DropdownMenuItem asChild>
                     <Link href="/login/patient" className="cursor-pointer">
