@@ -1,111 +1,115 @@
-import { Heart, Brain, Bone, Baby, Eye, Stethoscope, Activity, Shield } from 'lucide-react';
+'use client';
+
+import { Heart, Brain, Bone, Baby, Eye, Ear, Lungs, Kidney } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { layoutClasses, cardVariants, typographyClasses } from '@/styles';
+import { MEDICAL_SPECIALTIES } from '@/constants';
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
-
-const services = [
-  {
-    icon: Heart,
-    title: 'Cardiology',
-    description: 'Comprehensive heart care with advanced cardiac procedures',
-    features: ['Cardiac Surgery', 'Angioplasty', 'Pacemaker Implantation', 'Heart Transplant'],
-    color: 'text-red-500',
-    bgColor: 'bg-red-50',
-  },
-  {
-    icon: Brain,
-    title: 'Neurology',
-    description: 'Expert neurological care for brain and nervous system disorders',
-    features: ['Brain Surgery', 'Stroke Treatment', 'Epilepsy Care', 'Neurocritical Care'],
-    color: 'text-purple-500',
-    bgColor: 'bg-purple-50',
-  },
-  {
-    icon: Bone,
-    title: 'Orthopedics',
-    description: 'Advanced bone and joint treatments with minimally invasive techniques',
-    features: ['Joint Replacement', 'Sports Medicine', 'Spine Surgery', 'Trauma Care'],
-    color: 'text-blue-500',
-    bgColor: 'bg-blue-50',
-  },
-  {
-    icon: Baby,
-    title: 'Pediatrics',
-    description: 'Specialized healthcare for infants, children, and adolescents',
-    features: ['NICU', 'Pediatric Surgery', 'Child Development', 'Vaccination'],
-    color: 'text-green-500',
-    bgColor: 'bg-green-50',
-  },
-  {
-    icon: Eye,
-    title: 'Ophthalmology',
-    description: 'Complete eye care with state-of-the-art vision correction',
-    features: ['Cataract Surgery', 'LASIK', 'Retinal Surgery', 'Glaucoma Treatment'],
-    color: 'text-indigo-500',
-    bgColor: 'bg-indigo-50',
-  },
-  {
-    icon: Stethoscope,
-    title: 'Internal Medicine',
-    description: 'Comprehensive adult healthcare and chronic disease management',
-    features: ['Diabetes Care', 'Hypertension', 'Preventive Care', 'Health Screening'],
-    color: 'text-teal-500',
-    bgColor: 'bg-teal-50',
-  },
-];
 
 const emergencyServices = [
   {
-    icon: Activity,
-    title: '24/7 Emergency Care',
-    description: 'Round-the-clock emergency medical services with trauma center',
+    title: '24/7 Emergency Department',
+    description: 'Round-the-clock emergency care with advanced life support systems',
+    features: ['Trauma Care', 'Cardiac Emergency', 'Stroke Unit', 'Poison Control']
   },
   {
-    icon: Shield,
-    title: 'Critical Care',
-    description: 'Advanced ICU facilities with specialized critical care teams',
+    title: 'Ambulance Services',
+    description: 'Advanced life support ambulances with trained paramedics',
+    features: ['GPS Tracking', 'ICU on Wheels', 'Air Ambulance', 'Neonatal Transport']
   },
+  {
+    title: 'Critical Care Units',
+    description: 'State-of-the-art ICU facilities with 24/7 monitoring',
+    features: ['Medical ICU', 'Surgical ICU', 'Cardiac ICU', 'Neonatal ICU']
+  }
+];
+
+const diagnosticServices = [
+  {
+    category: 'Imaging Services',
+    services: ['MRI Scan', 'CT Scan', 'X-Ray', 'Ultrasound', 'Mammography', 'PET Scan']
+  },
+  {
+    category: 'Laboratory Services',
+    services: ['Blood Tests', 'Urine Analysis', 'Pathology', 'Microbiology', 'Biochemistry', 'Genetics']
+  },
+  {
+    category: 'Cardiac Diagnostics',
+    services: ['ECG', 'Echocardiogram', 'Stress Test', 'Holter Monitor', 'Angiography']
+  },
+  {
+    category: 'Specialized Tests',
+    services: ['Endoscopy', 'Colonoscopy', 'Biopsy', 'Pulmonary Function', 'Sleep Study']
+  }
+];
+
+const surgicalServices = [
+  {
+    title: 'Minimally Invasive Surgery',
+    description: 'Advanced laparoscopic and robotic surgical procedures',
+    specialties: ['Laparoscopic Surgery', 'Robotic Surgery', 'Endoscopic Procedures']
+  },
+  {
+    title: 'Cardiac Surgery',
+    description: 'Comprehensive heart surgery including bypass and valve procedures',
+    specialties: ['Bypass Surgery', 'Valve Replacement', 'Angioplasty', 'Pacemaker']
+  },
+  {
+    title: 'Neurosurgery',
+    description: 'Advanced brain and spine surgical procedures',
+    specialties: ['Brain Surgery', 'Spine Surgery', 'Tumor Removal', 'Trauma Surgery']
+  },
+  {
+    title: 'Orthopedic Surgery',
+    description: 'Joint replacement and sports medicine procedures',
+    specialties: ['Joint Replacement', 'Sports Medicine', 'Trauma Care', 'Arthroscopy']
+  }
 ];
 
 export default function ServicesPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-green-900 via-teal-800 to-blue-700 text-white py-20">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="container relative z-10 px-4 md:px-6">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <h1 className="text-4xl md:text-6xl font-bold">
-              Comprehensive Medical Services
+      <section className="relative bg-gradient-to-r from-green-600 to-green-800 text-white py-20">
+        <div className={layoutClasses.container}>
+          <div className="max-w-3xl">
+            <h1 className={cn(typographyClasses.heading.h1, "text-white mb-6")}>
+              Our Medical Services
             </h1>
-            <p className="text-xl md:text-2xl text-green-100">
-              Advanced healthcare solutions across 25+ medical specialties with world-class facilities
+            <p className="text-xl text-green-100 leading-relaxed">
+              Comprehensive healthcare services delivered by expert medical professionals 
+              using state-of-the-art technology and compassionate care.
             </p>
           </div>
         </div>
       </section>
 
       {/* Emergency Services */}
-      <section className="py-16 bg-red-50">
-        <div className="container px-4 md:px-6">
+      <section className={layoutClasses.section}>
+        <div className={layoutClasses.container}>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Emergency Services</h2>
-            <p className="text-lg text-gray-600">Available 24/7 for your urgent medical needs</p>
+            <h2 className={cn(typographyClasses.heading.h2, "mb-4")}>Emergency Services</h2>
+            <p className={typographyClasses.body.large}>24/7 emergency care when you need it most</p>
           </div>
-          
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {emergencyServices.map((service, index) => (
-              <Card key={index} className="border-red-200 bg-white shadow-lg">
-                <CardContent className="p-8 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 text-red-600 mb-6">
-                    <service.icon className="w-8 h-8" />
+              <Card key={index} className={cardVariants({ variant: 'elevated', hover: 'lift' })}>
+                <CardHeader>
+                  <CardTitle className="text-red-600">{service.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600 mb-4">{service.description}</p>
+                  <div className="space-y-2">
+                    {service.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                        <span className="text-sm">{feature}</span>
+                      </div>
+                    ))}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{service.title}</h3>
-                  <p className="text-gray-600 mb-6">{service.description}</p>
-                  <Button className="bg-red-600 hover:bg-red-700">
-                    Emergency: 108
-                  </Button>
                 </CardContent>
               </Card>
             ))}
@@ -114,49 +118,31 @@ export default function ServicesPage() {
       </section>
 
       {/* Medical Specialties */}
-      <section className="py-20 bg-white">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Medical Specialties
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Expert care across multiple specialties with advanced technology and experienced medical professionals
-            </p>
+      <section className="bg-gray-50 py-16">
+        <div className={layoutClasses.container}>
+          <div className="text-center mb-12">
+            <h2 className={cn(typographyClasses.heading.h2, "mb-4")}>Medical Specialties</h2>
+            <p className={typographyClasses.body.large}>Expert care across multiple medical disciplines</p>
           </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-md">
-                <CardHeader className={`${service.bgColor} pb-6`}>
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-white ${service.color} mb-4`}>
-                    <service.icon className="w-6 h-6" />
-                  </div>
-                  <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                    {service.title}
-                  </CardTitle>
-                </CardHeader>
-                
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {MEDICAL_SPECIALTIES.map((specialty) => (
+              <Card key={specialty.id} className={cardVariants({ variant: 'elevated', hover: 'lift' })}>
                 <CardContent className="p-6">
-                  <p className="text-gray-600 mb-6">{service.description}</p>
-                  
-                  <div className="space-y-3 mb-6">
-                    <h4 className="font-semibold text-gray-900">Key Services:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {service.features.map((feature, idx) => (
-                        <Badge key={idx} variant="secondary" className="text-xs">
-                          {feature}
-                        </Badge>
-                      ))}
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className={`w-12 h-12 bg-${specialty.color}-100 rounded-full flex items-center justify-center`}>
+                      <specialty.icon className={`h-6 w-6 text-${specialty.color}-600`} />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-lg">{specialty.name}</h3>
+                      <p className="text-sm text-gray-600">{specialty.description}</p>
                     </div>
                   </div>
-                  
-                  <div className="flex gap-2">
-                    <Button variant="outline" className="flex-1" asChild>
-                      <Link href="/doctors">Find Doctors</Link>
-                    </Button>
-                    <Button className="flex-1">
-                      Book Appointment
+                  <div className="flex items-center justify-between">
+                    <Badge variant="outline">{specialty.doctors}</Badge>
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href={`/doctors?specialty=${specialty.name}`}>
+                        View Doctors
+                      </Link>
                     </Button>
                   </div>
                 </CardContent>
@@ -166,58 +152,145 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Advanced Facilities */}
-      <section className="py-20 bg-gray-50">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Advanced Medical Facilities
-            </h2>
-            <p className="text-xl text-gray-600">
-              State-of-the-art infrastructure and cutting-edge medical technology
-            </p>
+      {/* Diagnostic Services */}
+      <section className={layoutClasses.section}>
+        <div className={layoutClasses.container}>
+          <div className="text-center mb-12">
+            <h2 className={cn(typographyClasses.heading.h2, "mb-4")}>Diagnostic Services</h2>
+            <p className={typographyClasses.body.large}>Advanced diagnostic capabilities for accurate diagnosis</p>
           </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              'Robotic Surgery',
-              'Advanced Imaging',
-              'Hybrid OR',
-              'Telemedicine',
-              'Digital Health Records',
-              'AI Diagnostics',
-              'Precision Medicine',
-              'Minimally Invasive Procedures'
-            ].map((facility, index) => (
-              <Card key={index} className="text-center p-6 border-0 shadow-md hover:shadow-lg transition-shadow">
-                <CardContent className="space-y-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                    <div className="w-6 h-6 bg-blue-600 rounded-full"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {diagnosticServices.map((category, index) => (
+              <Card key={index} className={cardVariants({ variant: 'elevated' })}>
+                <CardHeader>
+                  <CardTitle className="text-blue-600">{category.category}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-2">
+                    {category.services.map((service, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                        <span className="text-sm">{service}</span>
+                      </div>
+                    ))}
                   </div>
-                  <h3 className="font-semibold text-gray-900">{facility}</h3>
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Surgical Services */}
+      <section className="bg-gray-50 py-16">
+        <div className={layoutClasses.container}>
+          <div className="text-center mb-12">
+            <h2 className={cn(typographyClasses.heading.h2, "mb-4")}>Surgical Services</h2>
+            <p className={typographyClasses.body.large}>Advanced surgical procedures with minimal invasive techniques</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {surgicalServices.map((service, index) => (
+              <Card key={index} className={cardVariants({ variant: 'elevated', hover: 'lift' })}>
+                <CardHeader>
+                  <CardTitle className="text-green-600">{service.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600 mb-4">{service.description}</p>
+                  <div className="space-y-2">
+                    {service.specialties.map((specialty, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                        <span className="text-sm">{specialty}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Health Packages */}
+      <section className={layoutClasses.section}>
+        <div className={layoutClasses.container}>
+          <div className="text-center mb-12">
+            <h2 className={cn(typographyClasses.heading.h2, "mb-4")}>Health Packages</h2>
+            <p className={typographyClasses.body.large}>Comprehensive health check-ups for preventive care</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className={cardVariants({ variant: 'elevated', hover: 'lift' })}>
+              <CardHeader>
+                <CardTitle>Basic Health Checkup</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-green-600 mb-4">₹1,299</div>
+                <ul className="space-y-2 text-sm">
+                  <li>• Complete Blood Count</li>
+                  <li>• Blood Sugar Test</li>
+                  <li>• Urine Routine</li>
+                  <li>• ECG</li>
+                  <li>• Doctor Consultation</li>
+                </ul>
+                <Button className="w-full mt-4">Book Package</Button>
+              </CardContent>
+            </Card>
+
+            <Card className={cardVariants({ variant: 'elevated', hover: 'lift' })}>
+              <CardHeader>
+                <CardTitle>Executive Health Checkup</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-green-600 mb-4">₹4,999</div>
+                <ul className="space-y-2 text-sm">
+                  <li>• Complete Blood Profile</li>
+                  <li>• Cardiac Profile</li>
+                  <li>• Liver Function Test</li>
+                  <li>• Kidney Function Test</li>
+                  <li>• Chest X-Ray</li>
+                  <li>• Specialist Consultation</li>
+                </ul>
+                <Button className="w-full mt-4">Book Package</Button>
+              </CardContent>
+            </Card>
+
+            <Card className={cardVariants({ variant: 'elevated', hover: 'lift' })}>
+              <CardHeader>
+                <CardTitle>Women's Health Package</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-green-600 mb-4">₹3,499</div>
+                <ul className="space-y-2 text-sm">
+                  <li>• Pap Smear</li>
+                  <li>• Mammography</li>
+                  <li>• Bone Density Test</li>
+                  <li>• Thyroid Profile</li>
+                  <li>• Vitamin D & B12</li>
+                  <li>• Gynecologist Consultation</li>
+                </ul>
+                <Button className="w-full mt-4">Book Package</Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600 text-white">
-        <div className="container px-4 md:px-6 text-center">
-          <h2 className="text-4xl font-bold mb-6">
-            Need Medical Assistance?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Our medical experts are here to help you with personalized care and treatment plans
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
-              <Link href="/doctors">Book Consultation</Link>
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
-              Emergency: 108
-            </Button>
+      <section className="bg-blue-600 text-white py-16">
+        <div className={layoutClasses.container}>
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-4">Need Medical Assistance?</h2>
+            <p className="text-xl text-blue-100 mb-8">
+              Our medical experts are available 24/7 to provide you with the best healthcare services.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+                Book Appointment
+              </Button>
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+                Emergency: 108
+              </Button>
+            </div>
           </div>
         </div>
       </section>
