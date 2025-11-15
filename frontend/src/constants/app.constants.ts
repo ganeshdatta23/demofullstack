@@ -37,14 +37,6 @@ export const NAVIGATION_ITEMS: NavItem[] = [
     ],
   },
   {
-    label: 'International Patient',
-    items: [
-      { label: 'Services', href: '/international/services' },
-      { label: 'Visa Assistance', href: '/international/visa' },
-      { label: 'Travel & Accommodation', href: '/international/travel' },
-    ],
-  },
-  {
     label: 'Patient Info',
     items: [
       { label: 'Testimonials', href: '/testimonials' },
