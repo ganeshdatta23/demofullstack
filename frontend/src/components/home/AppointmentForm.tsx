@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { grid } from '@/styles/utils';
 
 export function AppointmentForm() {
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ export function AppointmentForm() {
     <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-2xl max-w-full">
       <h3 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-gray-900">Quick Appointment</h3>
       <form className="space-y-3 sm:space-y-4" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div className={grid.form()}>
           <Input 
             name="fullName"
             placeholder="Full Name" 

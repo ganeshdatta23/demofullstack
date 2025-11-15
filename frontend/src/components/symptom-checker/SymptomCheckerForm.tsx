@@ -36,6 +36,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { AlertCircle, Bot, Loader2, Sparkles } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
+import { flex } from '@/styles/utils';
 
 /**
  * A submit button that shows a loading state while the form is pending.
@@ -120,7 +121,7 @@ export function SymptomCheckerForm() {
       {state.result && (
         <Card className="mt-8 animate-in fade-in-50 duration-500">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className={flex.center("gap-2")}>
               <Bot className="h-6 w-6" />
               AI Analysis Results
             </CardTitle>

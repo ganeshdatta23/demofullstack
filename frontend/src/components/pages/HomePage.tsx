@@ -72,7 +72,7 @@ const SectionHeader = ({
   subtitle?: string; 
   className?: string;
 }) => (
-  <div className={cn("mb-8 md:mb-12 flex flex-col items-center justify-center space-y-3 md:space-y-4 text-center", className)}>
+  <div className={cn("mb-8 md:mb-12 space-y-3 md:space-y-4 text-center", layoutClasses.flex.columnCenter, className)}>
     <h2 className={typographyClasses.heading.h2}>
       {title}
     </h2>
@@ -90,7 +90,7 @@ export function HomePage() {
       {/* Emergency Banner */}
       <div className={medicalClasses.emergency.banner}>
         <Container>
-          <div className="flex items-center justify-between text-sm">
+          <div className={cn(layoutClasses.flex.between, "text-sm")}>
             <span className="font-medium">🚨 Emergency? Call 108 | Ambulance: +91-40-4455-4455</span>
             <Button 
               variant="outline" 
@@ -109,7 +109,7 @@ export function HomePage() {
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-8 xl:gap-12">
             <div className="flex flex-col justify-center space-y-4 lg:space-y-6">
               <div className="space-y-3 lg:space-y-4">
-                <div className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs sm:text-sm font-medium text-blue-800">
+                <div className={cn("inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs sm:text-sm font-medium text-blue-800", layoutClasses.flex.center)}>
                   <span className="hidden sm:inline">⭐ Rated #1 Multi-Specialty Hospital in Chennai</span>
                   <span className="sm:hidden">⭐ #1 Hospital Chennai</span>
                 </div>
@@ -123,7 +123,7 @@ export function HomePage() {
               </div>
               
               {/* Quick Actions */}
-              <div className="flex flex-wrap gap-2 sm:gap-3">
+              <div className={cn(layoutClasses.flex.wrap, "gap-2 sm:gap-3")}>
                 <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm">
                   <Link href={ROUTES.BOOK_APPOINTMENT}>
                     Book Appointment
@@ -210,8 +210,8 @@ export function HomePage() {
               };
               
               return (
-                <div key={key} className="flex flex-col items-center gap-2 text-center">
-                  <div className="flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-full bg-primary/10 text-2xl">
+                <div key={key} className={cn(layoutClasses.flex.columnCenter, "gap-2 text-center")}>
+                  <div className={cn("h-12 w-12 md:h-16 md:w-16 rounded-full bg-primary/10 text-2xl", layoutClasses.flex.center)}>
                     {icons[key as keyof typeof icons]}
                   </div>
                   <p className="text-xl md:text-2xl lg:text-3xl font-bold">

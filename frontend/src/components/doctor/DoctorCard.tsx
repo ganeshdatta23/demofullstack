@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import type { Doctor } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { layoutClasses } from '@/styles/layout';
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 type DoctorCardProps = {
@@ -21,7 +23,7 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
   return (
     <Card className="group flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-0 shadow-md">
       <CardContent className="p-6">
-        <div className="flex flex-col items-center text-center space-y-4">
+        <div className={cn(layoutClasses.flex.column, "items-center text-center space-y-4")}>
           {doctorImage && (
             <div className="relative">
               <Image
@@ -53,13 +55,13 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-1 text-sm">
+          <div className={cn(layoutClasses.flex.center, "gap-1 text-sm")}>
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
             <span className="font-semibold text-gray-900">{doctor.rating}</span>
             <span className="text-muted-foreground">({doctor.reviews} reviews)</span>
           </div>
 
-          <div className="flex items-center justify-center gap-4 text-sm bg-gray-50 rounded-lg p-3 w-full">
+          <div className={cn(layoutClasses.flex.center, "gap-4 text-sm bg-gray-50 rounded-lg p-3 w-full")}>
             <div className="text-center">
               <p className="text-xs text-muted-foreground">Onsite</p>
               <p className="font-semibold text-gray-900">₹{doctor.consultationFeeOnsite}</p>

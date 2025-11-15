@@ -5,11 +5,13 @@ import { Stethoscope } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { flex, grid, container } from '@/styles/utils';
+import { cn } from '@/lib/utils';
 
 export function Footer() {
   return (
     <footer className="border-t bg-muted/50">
-      <div className="container py-12 px-4 md:px-6">
+      <div className={container("py-12")}>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-6">
           <div className="col-span-1 sm:col-span-2 lg:col-span-2">
             <h4 className="mb-4 font-semibold text-foreground">About Apex</h4>
@@ -67,15 +69,15 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 border-t pt-8">
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <div className="flex items-center space-x-2">
+          <div className={cn(flex.between(), "flex-col gap-4 md:flex-row")}>
+            <div className={flex.center("space-x-2")}>
               <Stethoscope className="h-6 w-6 text-primary" />
               <span className="font-bold text-lg">Apex Hospital</span>
             </div>
             <p className="text-sm text-muted-foreground text-center">
               &copy; {new Date().getFullYear()} Apex Hospital. All rights reserved.
             </p>
-            <div className="flex flex-wrap items-center gap-4">
+            <div className={cn(flex.wrap(), "items-center gap-4")}>
               <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Privacy Policy
               </Link>

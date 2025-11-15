@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { layoutClasses } from '@/styles/layout';
+import { cn } from '@/lib/utils';
 
 export function SearchForm() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,7 +18,7 @@ export function SearchForm() {
 
   return (
     <div className="w-full max-w-full lg:max-w-lg">
-      <form className="flex space-x-2" onSubmit={handleSubmit}>
+      <form className={cn(layoutClasses.flex.center, "space-x-2")} onSubmit={handleSubmit}>
         <Input
           type="search"
           placeholder="Search doctors, specialties..."
