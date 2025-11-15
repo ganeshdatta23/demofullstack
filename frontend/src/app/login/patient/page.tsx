@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
+import { layoutClasses, spacingClasses } from '@/styles';
+import { cn } from '@/lib/utils';
 
 const validateEmail = (email: string) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -112,7 +114,7 @@ export default function PatientLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center p-4">
+    <div className={cn(layoutClasses.fullHeight, layoutClasses.flex.center, "bg-gradient-to-br from-blue-50 to-white p-4")}>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Patient Portal</h1>
@@ -120,8 +122,8 @@ export default function PatientLoginPage() {
         </div>
 
         <Card>
-          <CardContent className="p-6">
-            <Tabs defaultValue="login" className="space-y-6">
+          <CardContent className={spacingClasses.padding.md}>
+            <Tabs defaultValue="login" className={spacingClasses.gap.md}>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="login">Login</TabsTrigger>
                 <TabsTrigger value="register">Sign Up</TabsTrigger>

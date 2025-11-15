@@ -101,13 +101,13 @@ export const borderClasses = {
 export const responsiveClasses = {
   hide: {
     mobile: 'hidden md:block',
-    tablet: 'hidden lg:block',
-    desktop: 'lg:hidden',
+    tablet: 'hidden xl:block',
+    desktop: 'xl:hidden',
   },
   show: {
     mobile: 'md:hidden',
-    tablet: 'hidden md:block lg:hidden',
-    desktop: 'hidden lg:block',
+    tablet: 'xl:hidden',
+    desktop: 'hidden xl:block',
   },
   text: {
     responsive: 'text-sm md:text-base lg:text-lg',
