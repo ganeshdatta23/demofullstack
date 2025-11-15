@@ -127,32 +127,33 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative w-full bg-gradient-to-br from-blue-50 via-white to-green-50 py-16 md:py-24 lg:py-32">
-        <div className="container relative z-10 px-4 md:px-6">
-          <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-            <div className="flex flex-col justify-center space-y-6">
-              <div className="space-y-4">
-                <div className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800">
-                  ⭐ Rated #1 Multi-Specialty Hospital in Chennai
+      <section className="relative w-full bg-gradient-to-br from-blue-50 via-white to-green-50 py-12 md:py-16 lg:py-24 overflow-hidden">
+        <div className="container relative z-10 max-w-full px-4 md:px-6">
+          <div className="grid gap-6 lg:grid-cols-2 lg:gap-8 xl:gap-12">
+            <div className="flex flex-col justify-center space-y-4 lg:space-y-6">
+              <div className="space-y-3 lg:space-y-4">
+                <div className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs sm:text-sm font-medium text-blue-800">
+                  <span className="hidden sm:inline">⭐ Rated #1 Multi-Specialty Hospital in Chennai</span>
+                  <span className="sm:hidden">⭐ #1 Hospital Chennai</span>
                 </div>
-                <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl xl:text-6xl/none">
+                <h1 className="font-headline text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl/none">
                   Your Health, Our
                   <span className="text-blue-600"> Priority</span>
                 </h1>
-                <p className="max-w-[600px] text-lg text-muted-foreground">
+                <p className="max-w-full text-sm sm:text-base lg:text-lg text-muted-foreground">
                   Healthcare with 24/7 emergency services for everyone, expert doctors, and cutting-edge technology. Your wellness journey starts here.
                 </p>
               </div>
               
               {/* Quick Actions */}
-              <div className="flex flex-wrap gap-3">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+              <div className="flex flex-wrap gap-2 sm:gap-3">
+                <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm">
                   Book Appointment
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="sm" variant="outline" className="text-xs sm:text-sm">
                   Find a Doctor
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="sm" variant="outline" className="text-xs sm:text-sm hidden sm:inline-flex">
                   Health Packages
                 </Button>
               </div>
@@ -190,71 +191,71 @@ export default function Home() {
       </section>
 
       {/* Services Overview */}
-      <section className="w-full py-16 bg-white">
-        <div className="container px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Card className="text-center p-6 border-0 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <section className="w-full py-12 md:py-16 bg-white overflow-hidden">
+        <div className="container max-w-full px-4 md:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <Card className="text-center p-4 md:p-6 border-0 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <svg className="w-5 h-5 md:w-6 md:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="font-semibold mb-2">24/7 Emergency</h3>
-              <p className="text-sm text-muted-foreground">Round-the-clock emergency care with advanced life support</p>
+              <h3 className="font-semibold mb-2 text-sm md:text-base">24/7 Emergency</h3>
+              <p className="text-xs md:text-sm text-muted-foreground">Round-the-clock emergency care with advanced life support</p>
             </Card>
             
-            <Card className="text-center p-6 border-0 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <Card className="text-center p-4 md:p-6 border-0 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <svg className="w-5 h-5 md:w-6 md:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="font-semibold mb-2">Expert Doctors</h3>
-              <p className="text-sm text-muted-foreground">Highly qualified specialists with years of experience</p>
+              <h3 className="font-semibold mb-2 text-sm md:text-base">Expert Doctors</h3>
+              <p className="text-xs md:text-sm text-muted-foreground">Highly qualified specialists with years of experience</p>
             </Card>
             
-            <Card className="text-center p-6 border-0 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <Card className="text-center p-4 md:p-6 border-0 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <svg className="w-5 h-5 md:w-6 md:h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                 </svg>
               </div>
-              <h3 className="font-semibold mb-2">Advanced Technology</h3>
-              <p className="text-sm text-muted-foreground">State-of-the-art medical equipment and facilities</p>
+              <h3 className="font-semibold mb-2 text-sm md:text-base">Advanced Technology</h3>
+              <p className="text-xs md:text-sm text-muted-foreground">State-of-the-art medical equipment and facilities</p>
             </Card>
             
-            <Card className="text-center p-6 border-0 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <Card className="text-center p-4 md:p-6 border-0 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <svg className="w-5 h-5 md:w-6 md:h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
               </div>
-              <h3 className="font-semibold mb-2">Compassionate Care</h3>
-              <p className="text-sm text-muted-foreground">Patient-centered approach with personalized treatment</p>
+              <h3 className="font-semibold mb-2 text-sm md:text-base">Compassionate Care</h3>
+              <p className="text-xs md:text-sm text-muted-foreground">Patient-centered approach with personalized treatment</p>
             </Card>
           </div>
         </div>
       </section>
 
       {/* Why Choose Us Section */}
-      <section id="why-choose-us" className="w-full bg-background py-16 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
+      <section id="why-choose-us" className="w-full bg-background py-12 md:py-16 lg:py-24 overflow-hidden">
+        <div className="container max-w-full px-4 md:px-6">
+          <div className="mb-8 md:mb-12 flex flex-col items-center justify-center space-y-3 md:space-y-4 text-center">
+            <h2 className="font-headline text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl">
               Why Choose Apex Hospital?
             </h2>
-            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed">
+            <p className="max-w-full text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground px-4">
               A legacy of excellence in healthcare, combining state-of-the-art technology with a human touch.
             </p>
           </div>
-          <div className="mx-auto grid max-w-5xl items-center gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-4">
+          <div className="mx-auto grid max-w-6xl items-center gap-6 sm:grid-cols-2 lg:grid-cols-4 md:gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="flex flex-col items-center gap-2 text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <stat.icon className="h-8 w-8" />
+                <div className="flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <stat.icon className="h-6 w-6 md:h-8 md:w-8" />
                 </div>
-                <p className="text-3xl font-bold">{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
+                <p className="text-xl md:text-2xl lg:text-3xl font-bold">{stat.value}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -262,17 +263,17 @@ export default function Home() {
       </section>
       
       {/* Health Packages Section */}
-      <section id="health-packages" className="w-full bg-muted/50 py-16 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
+      <section id="health-packages" className="w-full bg-muted/50 py-12 md:py-16 lg:py-24 overflow-hidden">
+        <div className="container max-w-full px-4 md:px-6">
+          <div className="mb-8 md:mb-12 flex flex-col items-center justify-center space-y-3 md:space-y-4 text-center">
+            <h2 className="font-headline text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl">
               Health Packages
             </h2>
-            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed">
+            <p className="max-w-full text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground px-4">
               Preventive health check-ups designed for your well-being.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
             {healthPackages.map((pkg, index) => {
               const packageImage = getImage(pkg.imageId);
               return (
@@ -286,10 +287,12 @@ export default function Home() {
               );
             })}
           </div>
-          <div className="mt-12 text-center">
-            <Button asChild size="lg" variant="outline">
+          <div className="mt-8 md:mt-12 text-center">
+            <Button asChild size="sm" variant="outline" className="text-xs sm:text-sm">
               <Link href="#">
-                View All Health Packages <ArrowRight className="ml-2 h-4 w-4" />
+                <span className="hidden sm:inline">View All Health Packages</span>
+                <span className="sm:hidden">View All Packages</span>
+                <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
               </Link>
             </Button>
           </div>

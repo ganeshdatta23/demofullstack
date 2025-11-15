@@ -27,14 +27,14 @@ export function AppointmentForm() {
   };
 
   return (
-    <div className="bg-white rounded-2xl p-8 shadow-2xl">
-      <h3 className="text-xl font-bold mb-6 text-gray-900">Quick Appointment</h3>
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-2xl max-w-full">
+      <h3 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-gray-900">Quick Appointment</h3>
+      <form className="space-y-3 sm:space-y-4" onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <Input 
             name="fullName"
             placeholder="Full Name" 
-            className="border-gray-200"
+            className="border-gray-200 text-sm"
             value={formData.fullName}
             onChange={handleChange}
             required
@@ -42,7 +42,7 @@ export function AppointmentForm() {
           <Input 
             name="phone"
             placeholder="Phone Number" 
-            className="border-gray-200"
+            className="border-gray-200 text-sm"
             value={formData.phone}
             onChange={handleChange}
             required
@@ -52,14 +52,14 @@ export function AppointmentForm() {
           name="email"
           type="email"
           placeholder="Email Address" 
-          className="border-gray-200"
+          className="border-gray-200 text-sm"
           value={formData.email}
           onChange={handleChange}
           required
         />
         <select 
           name="specialty"
-          className="w-full p-3 border border-gray-200 rounded-md"
+          className="w-full p-2 sm:p-3 border border-gray-200 rounded-md text-sm"
           value={formData.specialty}
           onChange={handleChange}
           required
@@ -73,12 +73,12 @@ export function AppointmentForm() {
         <Input 
           name="date"
           type="date" 
-          className="border-gray-200"
+          className="border-gray-200 text-sm"
           value={formData.date}
           onChange={handleChange}
           required
         />
-        <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+        <Button type="submit" size="sm" className="w-full bg-blue-600 hover:bg-blue-700 text-sm">
           Book Appointment
         </Button>
       </form>
