@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { flex, container } from '@/styles/utils';
+import { cn } from '@/lib/utils';
 
 export function PatientLoginForm() {
   const [formData, setFormData] = useState({
@@ -30,11 +32,11 @@ export function PatientLoginForm() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-12rem)] flex items-center justify-center px-4 py-8 bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className={flex.center("min-h-[calc(100vh-12rem)] px-4 py-8 bg-gradient-to-br from-blue-50 via-white to-green-50")}>
       <div className="w-full max-w-md">
         <Card className="shadow-xl border-0">
           <CardHeader className="space-y-3 text-center pb-6">
-            <div className="mx-auto w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2">
+            <div className={flex.center("mx-auto w-12 h-12 bg-blue-100 rounded-full mb-2")}>
               <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
@@ -64,7 +66,7 @@ export function PatientLoginForm() {
               </div>
               
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
+                <div className={flex.between()}>
                   <Label htmlFor="password" className="text-sm font-medium text-gray-700">
                     Password
                   </Label>
@@ -90,7 +92,7 @@ export function PatientLoginForm() {
             </form>
           </CardContent>
           
-          <CardFooter className="flex flex-col items-center space-y-4 px-6 pb-6">
+          <CardFooter className={cn(flex.column(), "items-center space-y-4 px-6 pb-6")}>
             <div className="text-center text-sm text-gray-600">
               Don't have an account?{" "}
               <Link href="#" className="text-blue-600 hover:text-blue-500 font-medium transition-colors">

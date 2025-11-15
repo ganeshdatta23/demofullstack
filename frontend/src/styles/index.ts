@@ -4,3 +4,4 @@ export * from './layout';
 export * from './typography';
 export * from './medical';
 export * from './animations';
+export * from './utils';

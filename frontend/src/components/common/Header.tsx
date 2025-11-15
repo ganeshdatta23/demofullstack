@@ -13,6 +13,7 @@ import {
   DropdownMenuGroup,
 } from '@/components/ui/dropdown-menu';
 import { NAVIGATION_ITEMS, CONTACT_INFO, ROUTES } from '@/constants';
+import { layoutClasses, responsiveClasses } from '@/styles';
 import { cn } from '@/lib/utils';
 
 interface NavLinkProps {
@@ -66,7 +67,7 @@ const MobileMenu = () => (
     <SheetContent side="right" className="w-80 p-0">
       <div className="flex h-full flex-col">
         <SheetHeader className="border-b p-6">
-          <SheetTitle className="flex items-center space-x-2">
+          <SheetTitle className={cn(layoutClasses.flex.center, "space-x-2")}>
             <Stethoscope className="h-6 w-6 text-primary" />
             <span className="font-bold text-lg text-blue-600">Apex Hospital</span>
           </SheetTitle>
@@ -135,18 +136,18 @@ const MobileMenu = () => (
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-sm overflow-hidden">
-      <div className="container flex h-16 max-w-full items-center px-4 md:px-6">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-sm">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         {/* Logo */}
-        <div className="flex items-center min-w-0 flex-shrink-0">
-          <Link href={ROUTES.HOME} className="flex items-center space-x-2 transition-opacity hover:opacity-80 mr-4 lg:mr-6">
-            <Stethoscope className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0" />
-            <span className="font-bold text-sm sm:text-lg text-blue-600 whitespace-nowrap">Apex Hospital</span>
+        <div className="flex items-center flex-shrink-0">
+          <Link href={ROUTES.HOME} className="flex items-center space-x-2 transition-opacity hover:opacity-80">
+            <Stethoscope className="h-6 w-6 text-primary" />
+            <span className="font-bold text-lg text-blue-600 whitespace-nowrap">Apex Hospital</span>
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-4 xl:gap-6 text-sm xl:flex flex-1 min-w-0">
+        <nav className={cn(responsiveClasses.hide.tablet, layoutClasses.flex.center, "space-x-6")}>
           {NAVIGATION_ITEMS.slice(0, 6).map((item) => (
             <DropdownNavLink key={item.label} label={item.label}>
               {item.items?.map((subItem) => (
@@ -160,9 +161,9 @@ export function Header() {
         </nav>
 
         {/* Desktop Actions */}
-        <div className="flex items-center justify-end space-x-1 sm:space-x-2 flex-shrink-0 ml-auto">
+        <div className="flex items-center space-x-2 flex-shrink-0">
           {/* Book Appointment Button */}
-          <div className="hidden xl:flex items-center space-x-2">
+          <div className={cn(responsiveClasses.hide.tablet, layoutClasses.flex.center, "space-x-2")}>
             <Button 
               asChild
               variant="outline" 
@@ -236,7 +237,7 @@ export function Header() {
           </div>
 
           {/* Mobile Menu */}
-          <div className="xl:hidden">
+          <div className={responsiveClasses.show.tablet}>
             <MobileMenu />
           </div>
         </div>

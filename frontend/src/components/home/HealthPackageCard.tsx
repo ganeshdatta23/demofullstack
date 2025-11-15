@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
+import { flex } from '@/styles/utils';
 import { CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 
@@ -15,7 +16,7 @@ type HealthPackageCardProps = {
 
 export function HealthPackageCard({ title, price, items, image }: HealthPackageCardProps) {
   return (
-    <Card className="group flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-0 shadow-md">
+    <Card className={flex.column("group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-0 shadow-md")}>
       {image && (
         <div className="relative overflow-hidden">
           <Image
@@ -30,7 +31,7 @@ export function HealthPackageCard({ title, price, items, image }: HealthPackageC
         </div>
       )}
       
-      <div className="flex flex-col flex-grow">
+      <div className={flex.column("flex-grow")}>
         <CardHeader className="pb-4">
           <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
             {title}
@@ -40,7 +41,7 @@ export function HealthPackageCard({ title, price, items, image }: HealthPackageC
         <CardContent className="flex-grow pb-4">
           <ul className="space-y-3">
             {items.map((item, index) => (
-              <li key={index} className="flex items-start gap-3">
+              <li key={index} className={flex.start("gap-3")}>
                 <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                 <span className="text-sm text-gray-600 leading-relaxed">{item}</span>
               </li>
@@ -49,7 +50,7 @@ export function HealthPackageCard({ title, price, items, image }: HealthPackageC
         </CardContent>
         
         <CardFooter className="bg-gradient-to-r from-blue-50 to-green-50 border-t p-6 mt-auto">
-          <div className="flex items-center justify-between w-full">
+          <div className={flex.between("w-full")}>
             <div>
               <p className="text-sm text-muted-foreground">Starting from</p>
               <p className="text-2xl font-bold text-blue-600">
