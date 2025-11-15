@@ -215,7 +215,7 @@ export function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button size="sm" className="bg-blue-600 hover:bg-blue-700 transition-colors text-xs px-2 xl:px-4">
-                  <span className="hidden xl:inline">Sign Up</span>
+                  <span className="hidden xl:inline">Sign-Up</span>
                   <span className="xl:hidden">+</span>
                 </Button>
               </DropdownMenuTrigger>
