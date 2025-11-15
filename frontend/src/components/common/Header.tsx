@@ -89,8 +89,8 @@ export function Header() {
   return (
     <>
       {/* Top Bar */}
-      <div className="bg-blue-600 text-white py-2 text-sm overflow-hidden">
-        <div className="container max-w-full px-4 md:px-6">
+      {/* <div className="bg-blue-600 text-white py-2 text-sm"> */}
+        {/* <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-between gap-2 sm:flex-row sm:gap-0">
             <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-4 lg:gap-6">
               <span className="flex items-center gap-1 text-xs sm:text-sm">
@@ -116,8 +116,8 @@ export function Header() {
               </span>
             </div>
           </div>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
       
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-sm overflow-hidden">
         <div className="container flex h-16 max-w-full items-center px-4 md:px-6">

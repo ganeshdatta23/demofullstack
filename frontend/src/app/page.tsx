@@ -115,16 +115,12 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Emergency Banner */}
-      <div className="bg-red-600 text-white py-2 overflow-hidden">
-        <div className="container max-w-full px-4 md:px-6">
-          <div className="flex items-center justify-between text-xs sm:text-sm gap-2">
-            <span className="font-medium flex-1 min-w-0">
-              <span className="hidden sm:inline">🚨 Emergency? Call 108 | Ambulance: +91-40-4455-4455</span>
-              <span className="sm:hidden">🚨 Emergency: 108</span>
-            </span>
-            <Button variant="outline" size="sm" className="text-red-600 border-white hover:bg-white hover:text-red-600 text-xs px-2 sm:px-4 flex-shrink-0">
-              <span className="hidden sm:inline">Emergency Services</span>
-              <span className="sm:hidden">Emergency</span>
+      <div className="bg-red-600 text-white py-2">
+        <div className="container px-4 md:px-6">
+          <div className="flex items-center justify-between text-sm">
+            <span className="font-medium">🚨 Emergency? Call 108 | Ambulance: +91-40-4455-4455</span>
+            <Button variant="outline" size="sm" className="text-red-600 border-white hover:bg-white hover:text-red-600">
+              Emergency Services
             </Button>
           </div>
         </div>
