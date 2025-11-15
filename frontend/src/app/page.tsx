@@ -119,7 +119,7 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <div className="flex items-center justify-between text-sm">
             <span className="font-medium">🚨 Emergency? Call 108 | Ambulance: +91-40-4455-4455</span>
-            <Button variant="outline" size="sm" className="text-white border-white hover:bg-white hover:text-red-600">
+            <Button variant="outline" size="sm" className="text-red-600 border-white hover:bg-white hover:text-red-600">
               Emergency Services
             </Button>
           </div>
