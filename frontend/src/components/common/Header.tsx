@@ -50,7 +50,7 @@ const DropdownNavLink = ({ label, children }: DropdownNavLinkProps) => (
         <ChevronDown className="ml-1 h-4 w-4" />
       </Button>
     </DropdownMenuTrigger>
-    <DropdownMenuContent align="start" className={cn("w-56 z-[100]", responsiveClasses.show.desktop)} modal={true}>
+    <DropdownMenuContent align="start" className={cn("w-56 z-[100]", responsiveClasses.show.desktop)}>
       {children}
     </DropdownMenuContent>
   </DropdownMenu>
@@ -196,7 +196,7 @@ export function Header() {
                   <span className="hidden xl:inline">Login</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="z-[100]" modal={true}>
+              <DropdownMenuContent align="end" className="z-[100]">
                 <DropdownMenuGroup>
                   <DropdownMenuItem asChild>
                     <Link href="/login/patient" className="cursor-pointer">
@@ -219,7 +219,7 @@ export function Header() {
                   <span className="xl:hidden">+</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="z-[100]" modal={true}>
+              <DropdownMenuContent align="end" className="z-[100]">
                 <DropdownMenuGroup>
                   <DropdownMenuItem asChild>
                     <Link href="/login/patient" className="cursor-pointer">
