@@ -1,194 +1,247 @@
-/**
- * API client configuration and utilities
- */
+import { API_CONFIG, ERROR_MESSAGES } from '@/constants';
+import { errorUtils } from './utils';
+import type { ApiResponse, PaginatedResponse } from '@/types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
-
+// API Client Class
 class ApiClient {
   private baseURL: string;
-  private token: string | null = null;
-  private refreshToken: string | null = null;
-  private isRefreshing = false;
-  private failedQueue: Array<{resolve: Function; reject: Function}> = [];
+  private timeout: number;
+  private retryAttempts: number;
 
-  constructor(baseURL: string) {
-    this.baseURL = baseURL;
-    
-    // Get tokens from localStorage if available
-    if (typeof window !== 'undefined') {
-      this.token = localStorage.getItem('access_token');
-      this.refreshToken = localStorage.getItem('refresh_token');
-    }
+  constructor() {
+    this.baseURL = API_CONFIG.BASE_URL;
+    this.timeout = API_CONFIG.TIMEOUT;
+    this.retryAttempts = API_CONFIG.RETRY_ATTEMPTS;
   }
 
-  setTokens(accessToken: string, refreshToken?: string) {
-    this.token = accessToken;
-    if (refreshToken) {
-      this.refreshToken = refreshToken;
+  // Auth tokens are now handled via httpOnly cookies
+  // No client-side token management needed
+
+  // Build request headers
+  private buildHeaders(customHeaders: Record<string, string> = {}): Record<string, string> {
+    return {
+      'Content-Type': 'application/json',
+      ...customHeaders,
+    };
+  }
+
+  // Build full URL
+  private buildUrl(endpoint: string): string {
+    return `${this.baseURL}${endpoint}`;
+  }
+
+  // Handle API response
+  private async handleResponse<T>(response: Response): Promise<ApiResponse<T>> {
+    const contentType = response.headers.get('content-type');
+    const isJson = contentType?.includes('application/json');
+
+    let data: any;
+    try {
+      data = isJson ? await response.json() : await response.text();
+    } catch {
+      data = null;
     }
-    
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('access_token', accessToken);
-      if (refreshToken) {
-        localStorage.setItem('refresh_token', refreshToken);
+
+    if (!response.ok) {
+      const error = {
+        status: response.status,
+        message: data?.message || data?.error || ERROR_MESSAGES.SERVER_ERROR,
+        data,
+      };
+
+      // Handle specific status codes
+      switch (response.status) {
+        case 401:
+          // Let the auth context handle the redirect
+          throw new Error(ERROR_MESSAGES.UNAUTHORIZED);
+        case 403:
+          throw new Error(ERROR_MESSAGES.FORBIDDEN);
+        case 404:
+          throw new Error(ERROR_MESSAGES.NOT_FOUND);
+        default:
+          throw new Error(error.message);
       }
     }
-  }
 
-  clearTokens() {
-    this.token = null;
-    this.refreshToken = null;
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
-    }
-  }
-
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
-    const url = `${this.baseURL}${endpoint}`;
-    
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-      ...options.headers,
+    return {
+      success: true,
+      data,
+      message: data?.message,
     };
+  }
 
-    if (this.token) {
-      headers.Authorization = `Bearer ${this.token}`;
-    }
+  // Make HTTP request with retry logic
+  private async makeRequest<T>(
+    method: string,
+    endpoint: string,
+    options: RequestInit = {},
+    attempt: number = 1
+  ): Promise<ApiResponse<T>> {
+    const url = this.buildUrl(endpoint);
+    const headers = this.buildHeaders(options.headers as Record<string, string>);
 
     const config: RequestInit = {
-      ...options,
+      method,
       headers,
+      credentials: 'include', // Include cookies for authentication
+      ...options,
     };
+
+    // Add timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+    config.signal = controller.signal;
 
     try {
       const response = await fetch(url, config);
-      
-      // Handle 401 Unauthorized - attempt token refresh
-      if (response.status === 401 && this.refreshToken && !endpoint.includes('/auth/')) {
-        try {
-          await this.refreshAccessToken();
-          // Retry original request with new token
-          const newHeaders = { ...headers };
-          if (this.token) {
-            newHeaders.Authorization = `Bearer ${this.token}`;
-          }
-          const retryResponse = await fetch(url, { ...config, headers: newHeaders });
-          if (retryResponse.ok) {
-            return await retryResponse.json();
-          }
-        } catch (refreshError) {
-          this.clearTokens();
-          throw new Error('Session expired. Please login again.');
+      clearTimeout(timeoutId);
+      return await this.handleResponse<T>(response);
+    } catch (error: any) {
+      clearTimeout(timeoutId);
+
+        // Retry on network errors and 5xx server errors
+      if (attempt < this.retryAttempts && (errorUtils.isNetworkError(error) || (error.status >= 500 && error.status < 600))) {
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        return this.makeRequest<T>(method, endpoint, options, attempt + 1);
+      }
+
+      throw new Error(errorUtils.getErrorMessage(error));
+    }
+  }
+
+  // HTTP Methods
+  async get<T>(endpoint: string, params?: Record<string, any>): Promise<ApiResponse<T>> {
+    let url = endpoint;
+    if (params) {
+      const searchParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          searchParams.append(key, String(value));
         }
-      }
-      
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        const errorMessage = errorData.detail || errorData.message || `HTTP error! status: ${response.status}`;
-        throw new Error(errorMessage);
-      }
-
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('application/json')) {
-        return await response.json();
-      }
-      return await response.text();
-    } catch (error) {
-      if (error instanceof TypeError) {
-        throw new Error('Network error. Please check your connection.');
-      }
-      throw error;
+      });
+      url += `?${searchParams.toString()}`;
     }
+
+    return this.makeRequest<T>('GET', url);
   }
 
-  // Auth methods
-  async login(email: string, password: string) {
+  async post<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
+    return this.makeRequest<T>('POST', endpoint, {
+      body: data ? JSON.stringify(data) : undefined,
+    });
+  }
+
+  async put<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
+    return this.makeRequest<T>('PUT', endpoint, {
+      body: data ? JSON.stringify(data) : undefined,
+    });
+  }
+
+  async patch<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
+    return this.makeRequest<T>('PATCH', endpoint, {
+      body: data ? JSON.stringify(data) : undefined,
+    });
+  }
+
+  async delete<T>(endpoint: string): Promise<ApiResponse<T>> {
+    return this.makeRequest<T>('DELETE', endpoint);
+  }
+
+  // File upload
+  async upload<T>(endpoint: string, file: File, additionalData?: Record<string, any>): Promise<ApiResponse<T>> {
     const formData = new FormData();
-    formData.append('username', email);
-    formData.append('password', password);
+    formData.append('file', file);
 
-    const result = await this.request('/auth/login', {
-      method: 'POST',
-      headers: {}, // Remove Content-Type to let browser set it for FormData
+    if (additionalData) {
+      Object.entries(additionalData).forEach(([key, value]) => {
+        formData.append(key, String(value));
+      });
+    }
+
+    const headers = this.buildHeaders();
+    delete headers['Content-Type']; // Let browser set Content-Type for FormData
+    
+    return this.makeRequest<T>('POST', endpoint, {
       body: formData,
-    });
-    
-    // Store tokens after successful login
-    if (result.access_token) {
-      this.setTokens(result.access_token, result.refresh_token);
-    }
-    
-    return result;
-  }
-  
-  private async refreshAccessToken() {
-    if (!this.refreshToken) {
-      throw new Error('No refresh token available');
-    }
-    
-    const result = await this.request('/auth/refresh', {
-      method: 'POST',
-      body: JSON.stringify({ refresh_token: this.refreshToken }),
-    });
-    
-    if (result.access_token) {
-      this.setTokens(result.access_token, result.refresh_token);
-    }
-    
-    return result;
-  }
-
-  async register(userData: any) {
-    return this.request('/auth/register', {
-      method: 'POST',
-      body: JSON.stringify(userData),
+      headers,
     });
   }
 
-  async getCurrentUser() {
-    return this.request('/auth/me');
-  }
-
-  // Doctors methods
-  async getDoctors(params?: any) {
-    const queryString = params ? `?${new URLSearchParams(params)}` : '';
-    return this.request(`/doctors${queryString}`);
-  }
-
-  async getDoctorById(id: string) {
-    return this.request(`/doctors/${id}`);
-  }
-
-  // Appointments methods
-  async getAppointments() {
-    return this.request('/appointments');
-  }
-
-  async createAppointment(appointmentData: any) {
-    return this.request('/appointments', {
-      method: 'POST',
-      body: JSON.stringify(appointmentData),
-    });
-  }
-
-  // Specialities methods
-  async getSpecialities() {
-    return this.request('/specialities');
-  }
-
-  // Hospitals methods
-  async getHospitals() {
-    return this.request('/hospitals');
-  }
-
-  async getHospitalById(id: string) {
-    return this.request(`/hospitals/${id}`);
-  }
+  // Auth methods are no longer needed with httpOnly cookies
 }
 
-export const apiClient = new ApiClient(API_BASE_URL);
-export default apiClient;
+// Create singleton instance
+export const api = new ApiClient();
+
+// API service functions
+export const authApi = {
+  login: (credentials: { email: string; password: string }) =>
+    api.post(API_CONFIG.ENDPOINTS.AUTH.LOGIN, credentials),
+
+  register: (userData: any) =>
+    api.post(API_CONFIG.ENDPOINTS.AUTH.REGISTER, userData),
+
+  refreshToken: () =>
+    api.post(API_CONFIG.ENDPOINTS.AUTH.REFRESH),
+
+  getProfile: () =>
+    api.get(API_CONFIG.ENDPOINTS.AUTH.ME),
+
+  logout: () =>
+    api.post(API_CONFIG.ENDPOINTS.AUTH.LOGOUT),
+};
+
+export const doctorsApi = {
+  getAll: (params?: any) =>
+    api.get<PaginatedResponse<any>>(API_CONFIG.ENDPOINTS.DOCTORS.LIST, params),
+
+  getById: (id: string) =>
+    api.get(API_CONFIG.ENDPOINTS.DOCTORS.DETAIL.replace(':id', id)),
+
+  getAvailability: (id: string, date?: string) =>
+    api.get(API_CONFIG.ENDPOINTS.DOCTORS.AVAILABILITY.replace(':id', id), { date }),
+
+  search: (query: string, filters?: any) =>
+    api.get(API_CONFIG.ENDPOINTS.DOCTORS.SEARCH, { q: query, ...filters }),
+};
+
+export const appointmentsApi = {
+  getAll: (params?: any) =>
+    api.get<PaginatedResponse<any>>(API_CONFIG.ENDPOINTS.APPOINTMENTS.LIST, params),
+
+  create: (appointmentData: any) =>
+    api.post(API_CONFIG.ENDPOINTS.APPOINTMENTS.CREATE, appointmentData),
+
+  getById: (id: string) =>
+    api.get(API_CONFIG.ENDPOINTS.APPOINTMENTS.DETAIL.replace(':id', id)),
+
+  update: (id: string, data: any) =>
+    api.put(API_CONFIG.ENDPOINTS.APPOINTMENTS.UPDATE.replace(':id', id), data),
+
+  cancel: (id: string, reason?: string) =>
+    api.post(API_CONFIG.ENDPOINTS.APPOINTMENTS.CANCEL.replace(':id', id), { reason }),
+};
+
+export const specialtiesApi = {
+  getAll: () =>
+    api.get(API_CONFIG.ENDPOINTS.SPECIALTIES.LIST),
+
+  getById: (id: string) =>
+    api.get(API_CONFIG.ENDPOINTS.SPECIALTIES.DETAIL.replace(':id', id)),
+};
+
+export const healthPackagesApi = {
+  getAll: () =>
+    api.get(API_CONFIG.ENDPOINTS.HEALTH_PACKAGES.LIST),
+
+  getById: (id: string) =>
+    api.get(API_CONFIG.ENDPOINTS.HEALTH_PACKAGES.DETAIL.replace(':id', id)),
+};
+
+export const symptomCheckerApi = {
+  analyze: (symptoms: any) =>
+    api.post(API_CONFIG.ENDPOINTS.SYMPTOM_CHECKER.ANALYZE, symptoms),
+};
+
+// Export default api instance
+export default api;

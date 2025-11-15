@@ -79,8 +79,17 @@ class Token(BaseModel):
     user: UserResponse
 
 
-class TokenRefresh(BaseModel):
-    refresh_token: str = Field(..., description="Refresh token")
+class LoginResponse(BaseModel):
+    message: str
+    user: UserResponse
+
+
+class LogoutResponse(BaseModel):
+    message: str
+
+
+class RefreshResponse(BaseModel):
+    message: str
 
 
 class PasswordReset(BaseModel):

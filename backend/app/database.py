@@ -8,9 +8,21 @@ from sqlalchemy import MetaData
 from app.config import settings
 
 # Create async engine with proper configuration
+def get_async_database_url(url: str) -> str:
+    """Convert database URL to async format"""
+    if url.startswith("postgresql+asyncpg://"):
+        return url
+    elif url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    elif url.startswith("postgres://"):
+        return url.replace("postgres://", "postgresql+asyncpg://", 1)
+    else:
+        raise ValueError(f"Unsupported database URL format: {url}")
+
 try:
+    async_url = get_async_database_url(settings.DATABASE_URL)
     engine = create_async_engine(
-        settings.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://"),
+        async_url,
         echo=settings.DATABASE_ECHO,
         future=True,
         pool_size=20,
@@ -45,14 +57,10 @@ Base.metadata = MetaData(naming_convention=convention)
 
 async def get_db() -> AsyncSession:
     """Dependency to get database session with proper error handling"""
-    session = None
-    try:
-        session = AsyncSessionLocal()
-        yield session
-    except Exception as e:
-        if session:
+    async with AsyncSessionLocal() as session:
+        try:
+            yield session
+            await session.commit()
+        except Exception:
             await session.rollback()
-        raise e
-    finally:
-        if session:
-            await session.close()
+            raise

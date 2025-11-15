@@ -1,144 +1,231 @@
 'use client';
 
-import { DoctorCard } from '@/components/doctor/DoctorCard';
-import { doctors } from '@/lib/data';
-import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { useState } from 'react';
+import { Search, Filter, MapPin, Star, Clock, Video, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useApi, useApiSearch } from '@/hooks/useApi';
+import { MEDICAL_SPECIALTIES } from '@/constants';
+import { layoutClasses, cardVariants } from '@/styles';
+import { cn, numberUtils } from '@/lib/utils';
 import Link from 'next/link';
 
+interface Doctor {
+  id: string;
+  name: string;
+  specialty: string;
+  experience: number;
+  rating: number;
+  reviewCount: number;
+  consultationFee: number;
+  location: string;
+  availableToday: boolean;
+  profileImage?: string;
+  languages: string[];
+  qualifications: string[];
+}
+
+const mockDoctors: Doctor[] = [
+  {
+    id: '1',
+    name: 'Dr. Rajesh Kumar',
+    specialty: 'Cardiology',
+    experience: 15,
+    rating: 4.8,
+    reviewCount: 245,
+    consultationFee: 800,
+    location: 'Chennai Central',
+    availableToday: true,
+    languages: ['English', 'Tamil', 'Hindi'],
+    qualifications: ['MBBS', 'MD Cardiology', 'DM Interventional Cardiology']
+  },
+  {
+    id: '2',
+    name: 'Dr. Priya Sharma',
+    specialty: 'Neurology',
+    experience: 12,
+    rating: 4.9,
+    reviewCount: 189,
+    consultationFee: 900,
+    location: 'Chennai South',
+    availableToday: false,
+    languages: ['English', 'Tamil'],
+    qualifications: ['MBBS', 'MD Neurology', 'Fellowship in Epilepsy']
+  }
+];
+
 export default function DoctorsPage() {
+  const [filters, setFilters] = useState({
+    specialty: '',
+    location: '',
+    availableToday: false,
+    sortBy: 'rating'
+  });
+
+  const { query, setQuery, results, loading } = useApiSearch<Doctor>('/api/v1/doctors/search');
+
+  const filteredDoctors = mockDoctors.filter(doctor => {
+    if (filters.specialty && doctor.specialty !== filters.specialty) return false;
+    if (filters.location && !doctor.location.includes(filters.location)) return false;
+    if (filters.availableToday && !doctor.availableToday) return false;
+    return true;
+  });
+
   return (
-    <div className="min-h-screen bg-gray-50/50">
-      <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <div className="mb-8">
-          <nav className="flex items-center space-x-2 text-sm text-muted-foreground mb-4">
-            <Link href="/" className="hover:text-primary transition-colors">Apex Hospitals</Link>
-            <span>/</span>
-            <span className="text-foreground font-medium">Find a Doctor</span>
-          </nav>
-          
-          <div className="space-y-2">
-            <h1 className="font-headline text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Find Your Preferred Doctor
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Search and book appointments with our expert medical professionals
-            </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b">
+        <div className={layoutClasses.container}>
+          <div className="py-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Find Doctors</h1>
+            <p className="text-gray-600">Book appointments with our expert doctors</p>
           </div>
         </div>
+      </div>
 
-        {/* Search and Filters */}
-        <div className="mb-10">
-          <div className="bg-white rounded-xl shadow-sm border p-6 space-y-6">
-            {/* Search Bar */}
-            <div className="relative">
-              <Input 
-                id="search" 
-                placeholder="Search by doctor name, specialty, or condition..." 
-                className="pr-12 h-12 text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500" 
-              />
-              <Search className="absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-            </div>
-            
-            {/* Filter Options */}
-            <div>
-              <p className="text-center text-sm text-muted-foreground mb-4">
-                Not sure which doctor to consult? Use the filters below to find the right specialist
-              </p>
-              
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <Select>
-                  <SelectTrigger className="h-11">
-                    <SelectValue placeholder="Choose Location" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Locations</SelectItem>
-                    <SelectItem value="secunderabad">Secunderabad</SelectItem>
-                    <SelectItem value="somajiguda">Somajiguda</SelectItem>
-                    <SelectItem value="malakpet">Malakpet</SelectItem>
-                    <SelectItem value="hitec-city">Hitec City</SelectItem>
-                  </SelectContent>
-                </Select>
-                
-                <Select>
-                  <SelectTrigger className="h-11">
-                    <SelectValue placeholder="Choose Specialty" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Specialties</SelectItem>
-                    <SelectItem value="cardiology">Cardiology</SelectItem>
-                    <SelectItem value="neurology">Neurology</SelectItem>
-                    <SelectItem value="pediatrics">Pediatrics</SelectItem>
-                    <SelectItem value="orthopedics">Orthopedics</SelectItem>
-                    <SelectItem value="dermatology">Dermatology</SelectItem>
-                    <SelectItem value="oncology">Oncology</SelectItem>
-                  </SelectContent>
-                </Select>
-                
-                <Select>
-                  <SelectTrigger className="h-11">
-                    <SelectValue placeholder="Availability" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Any Time</SelectItem>
-                    <SelectItem value="today">Available Today</SelectItem>
-                    <SelectItem value="tomorrow">Available Tomorrow</SelectItem>
-                    <SelectItem value="week">This Week</SelectItem>
-                  </SelectContent>
-                </Select>
-                
-                <Button className="h-11 bg-blue-600 hover:bg-blue-700 transition-colors">
-                  Search Doctors
-                </Button>
+      <div className={layoutClasses.container}>
+        <div className="py-8">
+          {/* Search and Filters */}
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Search doctors..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="pl-10"
+                />
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Results */}
-        <div>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">
-              Available Doctors ({doctors.length})
-            </h2>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>Sort by:</span>
-              <Select>
-                <SelectTrigger className="w-40 h-9">
-                  <SelectValue placeholder="Relevance" />
+              
+              <Select value={filters.specialty} onValueChange={(value) => setFilters(prev => ({ ...prev, specialty: value }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Specialty" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="relevance">Relevance</SelectItem>
-                  <SelectItem value="rating">Highest Rated</SelectItem>
-                  <SelectItem value="experience">Most Experienced</SelectItem>
-                  <SelectItem value="fee-low">Fee: Low to High</SelectItem>
-                  <SelectItem value="fee-high">Fee: High to Low</SelectItem>
+                  <SelectItem value="">All Specialties</SelectItem>
+                  {MEDICAL_SPECIALTIES.map(specialty => (
+                    <SelectItem key={specialty.id} value={specialty.name}>
+                      {specialty.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={filters.location} onValueChange={(value) => setFilters(prev => ({ ...prev, location: value }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Location" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All Locations</SelectItem>
+                  <SelectItem value="Central">Chennai Central</SelectItem>
+                  <SelectItem value="South">Chennai South</SelectItem>
+                  <SelectItem value="North">Chennai North</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={filters.sortBy} onValueChange={(value) => setFilters(prev => ({ ...prev, sortBy: value }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="rating">Rating</SelectItem>
+                  <SelectItem value="experience">Experience</SelectItem>
+                  <SelectItem value="fee">Consultation Fee</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+
+            <div className="flex items-center gap-4 mt-4">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={filters.availableToday}
+                  onChange={(e) => setFilters(prev => ({ ...prev, availableToday: e.target.checked }))}
+                  className="rounded"
+                />
+                <span className="text-sm">Available Today</span>
+              </label>
+            </div>
           </div>
-          
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {doctors.map((doctor) => (
-              <DoctorCard key={doctor.id} doctor={doctor} />
+
+          {/* Results */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {filteredDoctors.map(doctor => (
+              <Card key={doctor.id} className={cn(cardVariants({ variant: 'elevated', hover: 'lift' }))}>
+                <CardContent className="p-6">
+                  <div className="flex gap-4">
+                    <Avatar className="h-16 w-16">
+                      <AvatarImage src={doctor.profileImage} />
+                      <AvatarFallback>{doctor.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                    </Avatar>
+                    
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between mb-2">
+                        <div>
+                          <h3 className="font-semibold text-lg">{doctor.name}</h3>
+                          <p className="text-blue-600 font-medium">{doctor.specialty}</p>
+                        </div>
+                        {doctor.availableToday && (
+                          <Badge variant="success" className="text-xs">Available Today</Badge>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+                        <div className="flex items-center gap-1">
+                          <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                          <span>{doctor.rating}</span>
+                          <span>({doctor.reviewCount} reviews)</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          <span>{doctor.experience} years exp</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1 text-sm text-gray-600 mb-3">
+                        <MapPin className="h-4 w-4" />
+                        <span>{doctor.location}</span>
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="text-lg font-semibold text-green-600">
+                            {numberUtils.formatCurrency(doctor.consultationFee)}
+                          </span>
+                          <span className="text-sm text-gray-500 ml-1">consultation</span>
+                        </div>
+                        
+                        <div className="flex gap-2">
+                          <Button variant="outline" size="sm" asChild>
+                            <Link href={`/doctors/${doctor.id}`}>
+                              View Profile
+                            </Link>
+                          </Button>
+                          <Button size="sm" asChild>
+                            <Link href={`/appointments/book?doctorId=${doctor.id}`}>
+                              <Calendar className="h-4 w-4 mr-1" />
+                              Book
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
-          
-          {/* Load More */}
-          <div className="text-center mt-10">
-            <Button variant="outline" className="px-8">
-              Load More Doctors
-            </Button>
-          </div>
+
+          {filteredDoctors.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500">No doctors found matching your criteria.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -16,6 +16,7 @@ from app.config import settings
 from app.database import engine, Base
 from app.api.router import api_router
 from app.middleware.error_handler import add_exception_handlers
+from app.middleware.security import SecurityMiddleware
 
 
 @asynccontextmanager
@@ -23,21 +24,21 @@ async def lifespan(app: FastAPI):
     """Application lifespan events with proper error handling"""
     # Startup
     logger = logging.getLogger(__name__)
-    logger.info("🏥 Hospital Management System Starting...")
+    logger.info("Hospital Management System Starting...")
     
     try:
         # Create database tables
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-        logger.info("✅ Database tables created successfully")
+        logger.info("Database tables created successfully")
     except Exception as e:
-        logger.error(f"❌ Failed to create database tables: {e}")
+        logger.error(f"Failed to create database tables: {e}")
         raise
     
     yield
     
     # Shutdown
-    logger.info("🏥 Hospital Management System Shutting down...")
+    logger.info("Hospital Management System Shutting down...")
 
 
 # Configure logging
@@ -60,19 +61,30 @@ app = FastAPI(
 # Security
 security = HTTPBearer()
 
-# Add middleware
+# Add middleware with secure CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.ALLOWED_HOSTS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allow_headers=[
+        "Accept",
+        "Accept-Language",
+        "Content-Language",
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+    ],
+    expose_headers=["X-Process-Time"],
 )
 
 app.add_middleware(
     TrustedHostMiddleware,
     allowed_hosts=settings.ALLOWED_HOSTS
 )
+
+# Add security middleware
+app.add_middleware(SecurityMiddleware)
 
 # Add exception handlers
 add_exception_handlers(app)
@@ -83,12 +95,22 @@ app.include_router(api_router, prefix="/api/v1")
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
-    """Add processing time header and request logging"""
+    """Add processing time header and secure request logging"""
     start_time = time.time()
     
-    # Log request
+    # Log request with privacy considerations
     logger = logging.getLogger(__name__)
-    logger.info(f"{request.method} {request.url.path} - {request.client.host if request.client else 'unknown'}")
+    client_ip = "unknown"
+    if request.client:
+        # Anonymize IP for privacy (keep first 3 octets for IPv4)
+        ip = request.client.host
+        if '.' in ip and ip.count('.') == 3:  # IPv4
+            parts = ip.split('.')
+            client_ip = f"{parts[0]}.{parts[1]}.{parts[2]}.xxx"
+        else:
+            client_ip = "[anonymized]"
+    
+    logger.info(f"{request.method} {request.url.path} - {client_ip}")
     
     response = await call_next(request)
     process_time = time.time() - start_time

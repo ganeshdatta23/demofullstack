@@ -2,105 +2,105 @@
   "placeholderImages": [
     {
       "id": "hero",
-      "description": "A diverse group of doctors and nurses smiling in a modern hospital hallway.",
-      "imageUrl": "https://images.unsplash.com/photo-1633488781325-d36e6818d0c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkb2N0b3JzJTIwaG9zcGl0YWx8ZW58MHx8fHwxNzYyNjg4OTYzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "doctors hospital"
+      "description": "Modern hospital building with medical professionals",
+      "imageUrl": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop",
+      "imageHint": "Professional medical team in modern hospital setting"
     },
     {
       "id": "symptom-checker-cta",
-      "description": "A person using a laptop to check symptoms online.",
-      "imageUrl": "https://images.unsplash.com/photo-1642830166516-2833fb422822?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxsYXB0b3AlMjBwZXJzb258ZW58MHx8fHwxNzYyNjg4OTYzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "laptop person"
+      "description": "Doctor using digital health technology",
+      "imageUrl": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop",
+      "imageHint": "Healthcare professional using digital medical technology"
     },
     {
       "id": "specialty-cardiology",
-      "description": "An abstract image representing a heart and cardiology.",
-      "imageUrl": "https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxoZWFydCUyMGhlYWx0aHxlbnwwfHx8fDE3NjI2ODI2NDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "heart health"
+      "description": "Cardiology department with heart monitoring equipment",
+      "imageUrl": "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop",
+      "imageHint": "Modern cardiology equipment and heart health monitoring"
     },
     {
       "id": "specialty-neurology",
-      "description": "An abstract image representing the brain and neurology.",
-      "imageUrl": "https://images.unsplash.com/photo-1516670428252-df97bba108d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxicmFpbiUyMHNjaWVuY2V8ZW58MHx8fHwxNzYyNjg4OTYzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "brain science"
+      "description": "Neurology department with brain imaging technology",
+      "imageUrl": "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop",
+      "imageHint": "Advanced neurology equipment and brain health technology"
     },
     {
       "id": "specialty-orthopedics",
-      "description": "An x-ray of a bone.",
-      "imageUrl": "https://images.unsplash.com/photo-1692616505494-a9433363e9c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx4cmF5JTIwYm9uZXxlbnwwfHx8fDE3NjI2ODI2NDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "xray bone"
+      "description": "Orthopedic department with bone and joint care",
+      "imageUrl": "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop",
+      "imageHint": "Orthopedic medical equipment and bone health care"
     },
     {
       "id": "specialty-pediatrics",
-      "description": "A doctor interacting with a child patient.",
-      "imageUrl": "https://images.unsplash.com/photo-1758691462119-792279713969?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxkb2N0b3IlMjBjaGlsZHxlbnwwfHx8fDE3NjI2MDQwODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "doctor child"
+      "description": "Pediatric department with child-friendly environment",
+      "imageUrl": "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop",
+      "imageHint": "Child-friendly pediatric medical environment"
+    },
+    {
+      "id": "specialty-oncology",
+      "description": "Oncology department with cancer treatment facilities",
+      "imageUrl": "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop",
+      "imageHint": "Modern oncology treatment and cancer care facilities"
     },
     {
       "id": "specialty-dermatology",
-      "description": "Abstract image of skin layers",
-      "imageUrl": "https://images.unsplash.com/photo-1730288951113-9cc087c14b83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxza2luJTIwbGF5ZXJzfGVufDB8fHx8MTc2MjY5MDU3MHww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "skin layers"
-    },
-    {
-      "id": "specialty-ent",
-      "description": "Abstract image representing ear, nose, and throat",
-      "imageUrl": "https://images.unsplash.com/photo-1592589177807-afa4f08ad99b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxlYXIlMjBub3NlfGVufDB8fHx8MTc2MjY5MDU3MXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "ear nose"
-    },
-    {
-      "id": "avatar-1",
-      "description": "A portrait of a smiling woman.",
-      "imageUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc2MjU3MzY3N3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "woman portrait"
-    },
-    {
-      "id": "avatar-2",
-      "description": "A portrait of a smiling man.",
-      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjI2NDU4MTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "man portrait"
-    },
-    {
-      "id": "doctor-1",
-      "description": "Portrait of Dr. Emily Carter",
-      "imageUrl": "https://images.unsplash.com/photo-1683348858689-f4e10994804d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkb2N0b3IlMjB3b21hbnxlbnwwfHx8fDE3NjI2MzcwOTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "doctor woman"
-    },
-    {
-      "id": "doctor-2",
-      "description": "Portrait of Dr. Benjamin Lee",
-      "imageUrl": "https://images.unsplash.com/photo-1614105687119-93b4f75e8ca9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkb2N0b3IlMjBtYW58ZW58MHx8fHwxNzYyNTk5MzIwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "doctor man"
-    },
-    {
-      "id": "doctor-3",
-      "description": "Portrait of Dr. Olivia Garcia",
-      "imageUrl": "https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxkb2N0b3IlMjB3b21hbnxlbnwwfHx8fDE3NjI2MzcwOTF8MA&ixlib.rb-4.1.0&q=80&w=1080",
-      "imageHint": "doctor woman"
-    },
-    {
-      "id": "doctor-4",
-      "description": "Portrait of Dr. Daniel Chen",
-      "imageUrl": "https://images.unsplash.com/photo-1580281658626-ee379f3cce93?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkb2N0b3IlMjBhc2lhbnxlbnwwfHx8fDE3NjI2ODg5NjN8MA&ixlib.rb-4.1.0&q=80&w=1080",
-      "imageHint": "doctor asian"
+      "description": "Dermatology department with skin care equipment",
+      "imageUrl": "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop",
+      "imageHint": "Dermatology equipment and skin health care technology"
     },
     {
       "id": "health-package-1",
-      "description": "A microscope and lab equipment.",
-      "imageUrl": "https://images.unsplash.com/photo-1579154204601-01588f351e67?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxsYWIlMjBlcXVpcG1lbnR8ZW58MHx8fHwxNzYyNjg5NzUwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "lab equipment"
+      "description": "Basic health checkup equipment and facilities",
+      "imageUrl": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop",
+      "imageHint": "Basic medical checkup equipment and health screening"
     },
     {
       "id": "health-package-2",
-      "description": "A doctor checking a patient's heartbeat with a stethoscope.",
-      "imageUrl": "https://images.unsplash.com/photo-1666214277730-e9c7e755e5a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxkb2N0b3IlMjBwYXRpZW50fGVufDB8fHx8MTc2MjU4OTE5MHww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "doctor patient"
+      "description": "Advanced cardiac health screening equipment",
+      "imageUrl": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop",
+      "imageHint": "Advanced cardiac screening and heart health equipment"
     },
     {
       "id": "health-package-3",
-      "description": "A collage of healthy lifestyle images.",
-      "imageUrl": "https://images.unsplash.com/photo-1607962837359-5e7e89f86776?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxoZWFsdGh5JTIwbGlmZXN0eWxlfGVufDB8fHx8MTc2MjYxNzM4OHww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "healthy lifestyle"
+      "description": "Women's health screening and wellness facilities",
+      "imageUrl": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop",
+      "imageHint": "Women's health screening and wellness medical facilities"
+    },
+    {
+      "id": "avatar-1",
+      "description": "Professional headshot of a satisfied patient",
+      "imageUrl": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+      "imageHint": "Professional headshot of a happy healthcare patient"
+    },
+    {
+      "id": "avatar-2",
+      "description": "Professional headshot of a satisfied patient",
+      "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+      "imageHint": "Professional headshot of a satisfied healthcare patient"
+    },
+    {
+      "id": "doctor-1",
+      "description": "Professional female cardiologist",
+      "imageUrl": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&h=300&fit=crop&crop=face",
+      "imageHint": "Professional female doctor in medical attire"
+    },
+    {
+      "id": "doctor-2",
+      "description": "Professional male neurologist",
+      "imageUrl": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=300&h=300&fit=crop&crop=face",
+      "imageHint": "Professional male doctor with stethoscope"
+    },
+    {
+      "id": "doctor-3",
+      "description": "Professional female pediatrician",
+      "imageUrl": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&h=300&fit=crop&crop=face",
+      "imageHint": "Professional female pediatrician in medical coat"
+    },
+    {
+      "id": "doctor-4",
+      "description": "Professional male orthopedic surgeon",
+      "imageUrl": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=300&h=300&fit=crop&crop=face",
+      "imageHint": "Professional male surgeon in medical attire"
     }
   ]
 }
