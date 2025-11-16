@@ -1,190 +1,186 @@
-# Hospital Management System - Backend API
+# Hospital Management API
 
-A production-ready FastAPI backend for a comprehensive hospital management platform.
+Professional FastAPI backend with JWT authentication and role-based access control.
 
-## 🏗️ Architecture
-
-- **Framework**: FastAPI with async/await support
-- **Database**: PostgreSQL with SQLAlchemy ORM
-- **Authentication**: JWT tokens with OAuth2
-- **Task Queue**: Celery with Redis
-- **API Documentation**: Auto-generated Swagger/OpenAPI
-- **Security**: Production-grade security headers and validation
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Python 3.11+
-- PostgreSQL 15+
-- Redis 7+
-- Conda (recommended) or pip
-
-### Installation
-
-1. **Create and activate conda environment**
-   ```bash
-   conda create -n hospital_backend python=3.11 -y
-   conda activate hospital_backend
-   ```
-
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Setup environment variables**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
-   ```
-
-4. **Start services with Docker**
-   ```bash
-   docker-compose up -d postgres redis
-   ```
-
-5. **Run database migrations**
-   ```bash
-   alembic upgrade head
-   ```
-
-6. **Start the development server**
-   ```bash
-   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-   ```
-
-## 📁 Project Structure
+## Architecture
 
 ```
-backend/
-├── app/
-│   ├── api/v1/              # API routes
-│   │   ├── auth/           # Authentication endpoints
-│   │   ├── patients/       # Patient management
-│   │   ├── doctors/        # Doctor management
-│   │   ├── appointments/   # Appointment system
-│   │   ├── specialities/   # Medical specialties
-│   │   └── hospitals/      # Hospital information
-│   ├── models/             # Database models
-│   ├── schemas/            # Pydantic schemas
-│   ├── services/           # Business logic
-│   ├── middleware/         # Custom middleware
-│   ├── utils/              # Utility functions
-│   ├── config.py          # Configuration management
-│   ├── database.py        # Database connection
-│   └── main.py            # FastAPI application
-├── migrations/             # Alembic migrations
-├── tests/                 # Test suite
-├── docker-compose.yml     # Development services
-├── Dockerfile            # Production container
-└── requirements.txt      # Python dependencies
+app/
+├── models/          # SQLAlchemy database models
+├── schemas/         # Pydantic request/response models
+├── services/        # Business logic layer
+├── api/endpoints/   # API route handlers
+├── auth.py          # JWT authentication & authorization
+└── database.py      # Database configuration
+
+main.py              # FastAPI application entry point
+requirements.txt     # Python dependencies
 ```
 
-## 🔧 API Endpoints
+## Quick Start
 
-### Authentication
-- `POST /api/v1/auth/register` - User registration
-- `POST /api/v1/auth/login` - User login
-- `POST /api/v1/auth/refresh` - Token refresh
-- `GET /api/v1/auth/me` - Current user info
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-### Patients
-- `GET /api/v1/patients/profile` - Get patient profile
-- `PUT /api/v1/patients/profile` - Update patient profile
-- `GET /api/v1/patients/medical-history` - Medical history
+# Run development server
+python main.py
 
-### Doctors
-- `GET /api/v1/doctors/` - List doctors with filters
-- `GET /api/v1/doctors/{id}` - Get doctor details
-- `GET /api/v1/doctors/{id}/availability` - Doctor availability
+# API Documentation
+http://localhost:8000/docs
+```
 
-### Appointments
-- `GET /api/v1/appointments/` - List appointments
-- `POST /api/v1/appointments/` - Create appointment
-- `PUT /api/v1/appointments/{id}` - Update appointment
-- `DELETE /api/v1/appointments/{id}` - Cancel appointment
+## Authentication System
 
-## 🔒 Security Features
+### JWT Token Authentication
+- Login returns JWT access token
+- Include token in Authorization header
+- Token expires in 30 minutes
 
-- JWT token authentication with refresh tokens
-- Password hashing with bcrypt
-- Input validation with Pydantic
-- SQL injection prevention with SQLAlchemy
-- CORS protection
-- Rate limiting
-- Security headers
-- Environment variable validation
+### Role-Based Access Control
 
-## 🗄️ Database Models
+**Doctor/Admin Permissions:**
+- Access all patient data
+- View all appointments
+- Full system access
+
+**Patient Permissions:**
+- Access only own profile
+- View only own appointments
+- Cannot access other patients' data
+
+## API Endpoints
+
+### Public Endpoints
+```
+GET  /                     # API status
+GET  /health              # Health check
+GET  /api/v1/specialties  # Medical specialties
+GET  /api/v1/doctors      # Doctor listings
+GET  /api/v1/health-packages # Health packages
+```
+
+### Authentication Endpoints
+```
+POST /api/v1/auth/register # User registration
+POST /api/v1/auth/login    # Login (returns JWT)
+GET  /api/v1/auth/me       # Current user info (protected)
+POST /api/v1/auth/logout   # Logout
+```
+
+### Protected Endpoints
+```
+GET  /api/v1/appointments     # Get appointments (role-based)
+POST /api/v1/appointments     # Book appointment (patients only)
+GET  /api/v1/appointments/{id} # Appointment details
+POST /api/v1/appointments/{id}/cancel # Cancel appointment
+```
+
+## Usage Examples
+
+### 1. Register User
+```bash
+curl -X POST "http://localhost:8000/api/v1/auth/register" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "patient@example.com",
+    "password": "password123",
+    "fullName": "John Doe",
+    "role": "patient"
+  }'
+```
+
+### 2. Login
+```bash
+curl -X POST "http://localhost:8000/api/v1/auth/login" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "patient@example.com",
+    "password": "password123"
+  }'
+```
+
+Response:
+```json
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "token_type": "bearer",
+  "user": {
+    "id": "1",
+    "email": "patient@example.com",
+    "fullName": "John Doe",
+    "role": "patient"
+  }
+}
+```
+
+### 3. Access Protected Endpoint
+```bash
+curl -X GET "http://localhost:8000/api/v1/appointments" \
+  -H "Authorization: Bearer <your-jwt-token>"
+```
+
+## Database Models
 
 ### User Model
-- Base model for all users (patients, doctors, admin)
-- Email and phone verification
-- Role-based access control
-- Audit trails
+- Base user information
+- Role-based permissions
+- Authentication data
 
 ### Patient Model
-- Personal information
 - Medical history
-- Insurance details
+- Personal information
 - Emergency contacts
 
 ### Doctor Model
 - Professional credentials
-- Specializations
-- Availability schedules
-- Performance metrics
+- Specialties and qualifications
+- Availability and fees
 
-## 🧪 Testing
+### Appointment Model
+- Patient-doctor bookings
+- Status tracking
+- Payment information
 
+## Security Features
+
+- **JWT Authentication** - Stateless token-based auth
+- **Password Hashing** - SHA256 for demo (use bcrypt in production)
+- **Role Validation** - Endpoint-level permission checks
+- **Data Isolation** - Users see only authorized data
+- **CORS Protection** - Configured for frontend origin
+
+## Environment Configuration
+
+Create `.env` file:
 ```bash
-# Run all tests
-pytest
-
-# Run with coverage
-pytest --cov=app
-
-# Run specific test file
-pytest tests/test_auth.py
+DATABASE_URL=postgresql://postgres:admin123@localhost:5432/hospital_management_db
+FRONTEND_URL=http://localhost:3000
+SECRET_KEY=your-jwt-secret-key-change-in-production
 ```
 
-## 🐳 Docker Deployment
+## Development
 
-### Development
-```bash
-docker-compose up -d
+### Adding New Endpoints
+1. Create model in `app/models/`
+2. Add schema in `app/schemas/`
+3. Implement service in `app/services/`
+4. Create endpoint in `app/api/endpoints/`
+5. Add to router in `app/api/router.py`
+
+### Testing Authentication
+```python
+# Test with different user roles
+# Verify role-based access control
+# Check data isolation
 ```
 
-### Production
-```bash
-docker build -t hospital-backend .
-docker run -p 8000:8000 hospital-backend
-```
+## Production Considerations
 
-## 📊 Monitoring
-
-- Health check endpoint: `/health`
-- API documentation: `/api/docs`
-- Metrics endpoint: `/metrics`
-- Logging with structured JSON format
-
-## 🔧 Configuration
-
-Key environment variables:
-- `DATABASE_URL`: PostgreSQL connection string
-- `SECRET_KEY`: JWT signing key (32+ characters)
-- `REDIS_URL`: Redis connection string
-- `ENVIRONMENT`: development/production
-- `DEBUG`: Enable debug mode
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
-
-## 📄 License
-
-MIT License - see LICENSE file for details.
+- Use bcrypt for password hashing
+- Implement refresh tokens
+- Add rate limiting
+- Use HTTPS only
+- Secure JWT secret key
+- Database connection pooling
+- Logging and monitoring
