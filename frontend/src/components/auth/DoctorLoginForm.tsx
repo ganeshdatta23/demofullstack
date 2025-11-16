@@ -1,27 +1,45 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import { flex } from '@/styles/utils';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
+import type { LoginFormData } from '@/types';
 
 export function DoctorLoginForm() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const { login, error, clearError } = useAuth();
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      alert('Please fill in all fields');
       return;
     }
-    console.log('Doctor login:', formData);
+
+    setIsLoading(true);
+    clearError();
+
+    try {
+      await login(formData);
+      router.push('/'); // Redirect to dashboard after successful login
+    } catch (error) {
+      // Error is handled by the auth context
+      console.error('Login failed:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +47,7 @@ export function DoctorLoginForm() {
       ...prev,
       [e.target.name]: e.target.value
     }));
+    if (error) clearError();
   };
 
   return (
@@ -48,6 +67,12 @@ export function DoctorLoginForm() {
           </CardHeader>
           
           <CardContent className="space-y-6 px-6">
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium text-gray-700">
@@ -61,6 +86,7 @@ export function DoctorLoginForm() {
                   value={formData.email}
                   onChange={handleChange}
                   className="h-11 border-gray-200 focus:border-green-500 focus:ring-green-500"
+                  disabled={isLoading}
                   required 
                 />
               </div>
@@ -82,12 +108,17 @@ export function DoctorLoginForm() {
                   value={formData.password}
                   onChange={handleChange}
                   className="h-11 border-gray-200 focus:border-green-500 focus:ring-green-500"
+                  disabled={isLoading}
                   required 
                 />
               </div>
               
-              <Button type="submit" className="w-full h-11 bg-green-600 hover:bg-green-700 transition-colors">
-                Access Doctor Dashboard
+              <Button 
+                type="submit" 
+                className="w-full h-11 bg-green-600 hover:bg-green-700 transition-colors"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Signing In...' : 'Access Doctor Dashboard'}
               </Button>
             </form>
           </CardContent>

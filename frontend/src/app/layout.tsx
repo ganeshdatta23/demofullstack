@@ -5,6 +5,7 @@ import { flex } from '@/styles/utils';
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { Toaster } from '@/components/ui/toaster';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 export const metadata: Metadata = {
   title: 'Apex Hospital - Your Partner in Health',
@@ -28,12 +29,14 @@ export default function RootLayout({
         />
       </head>
       <body className={cn('min-h-screen bg-background font-body antialiased overflow-x-hidden')}>
-        <div className={cn(flex.column(), "relative min-h-dvh bg-background w-full max-w-full overflow-x-hidden")}>
-          <Header />
-          <main className="flex-1 w-full max-w-full overflow-x-hidden">{children}</main>
-          <Footer />
-        </div>
-        <Toaster />
+        <AuthProvider>
+          <div className={cn(flex.column(), "relative min-h-dvh bg-background w-full max-w-full overflow-x-hidden")}>
+            <Header />
+            <main className="flex-1 w-full max-w-full overflow-x-hidden">{children}</main>
+            <Footer />
+          </div>
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );

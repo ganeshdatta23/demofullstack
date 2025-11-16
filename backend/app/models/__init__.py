@@ -1,8 +1,8 @@
-"""
-Database models package
-"""
+from .user import User
+from .patient import Patient
+from .doctor import Doctor
+from .specialty import Specialty
+from .appointment import Appointment
+from .health_package import HealthPackage
 
-from .user import User, UserType
-from .patient import Patient, Gender
-
-__all__ = ["User", "UserType", "Patient", "Gender"]
+__all__ = ["User", "Patient", "Doctor", "Specialty", "Appointment", "HealthPackage"]
